@@ -1,7 +1,7 @@
 # UntisExport
 
 [![NuGet version (SchulIT.SchildExport)](https://img.shields.io/nuget/v/SchulIT.UntisExport.svg?style=flat-square)](https://www.nuget.org/packages/SchulIT.UntisExport/)
-[![Build Status](https://dev.azure.com/schulit/SchildExport/_apis/build/status/SchulIT.UntisExport?branchName=master)](https://dev.azure.com/schulit/UntisExport/_build/latest?definitionId=1&branchName=master)
+[![Build Status](https://dev.azure.com/schulit/UntisExport/_apis/build/status/SchulIT.UntisExport?branchName=master)](https://dev.azure.com/schulit/UntisExport/_build/latest?definitionId=1&branchName=master)
 
 Mithilfe dieser Bibliothek kann der Untis-Vertretungsplan ausgelesen werden. Dazu wird das Info-Stundenplan-Modul von Untis benötigt. Die zu verwendende Ausgabe-Vorlage wird ebenfalls bereitgestellt.
 
