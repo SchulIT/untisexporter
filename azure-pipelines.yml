@@ -52,7 +52,7 @@ steps:
   displayName: Release to GitHub
   inputs:
     gitHubConnection: 'GitHub.com'
-    repositoryName: schulit/schildexport
+    repositoryName: schulit/untisexport
     assets: |
       '$(Build.ArtifactStagingDirectory)/**/*.nupkg'
       'UntisExport/**/*.dll'
