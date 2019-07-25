@@ -112,6 +112,26 @@ namespace UntisExport.Test
         }
 
         [TestMethod]
+        public async Task TestEmptyCells()
+        {
+            var exporter = new UntisExporter();
+            var settings = new ExportSettings();
+
+            var html = HtmlTestCases.GetNormalHtmlText();
+            var result = await exporter.ParseHtmlAsync(settings, html);
+
+            var substitution = result.Substitutions.FirstOrDefault(x => x.Id == 3);
+
+            Assert.IsNotNull(substitution);
+
+            Assert.IsNull(substitution.Subject);
+            Assert.IsNull(substitution.Room);
+            Assert.AreEqual(0, substitution.Grade.Count);
+            Assert.AreEqual(0, substitution.ReplacementGrades.Count);
+            Assert.AreEqual(0, substitution.Teachers.Count);
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(ParseException))]
         public async Task TestInvalidDateThrowsParseException()
         {

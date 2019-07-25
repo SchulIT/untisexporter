@@ -76,12 +76,8 @@ namespace SchulIT.UntisExport
 
             for(var i = 1; i < infoNodes.Count; i++) // The first item is the table header (which is not specified as thead, of course...)
             {
-                var text = infoNodes[i].InnerText
-                    .Replace("\r\n", "")
-                    .Replace("\n", "")
-                    .Replace("\r", "")
-                    .Replace("&nbsp;", " ")
-                    .Trim();
+                var text = ClearString(infoNodes[i].InnerText);
+                    
                 var infoText = new Infotext
                 {
                     Date = dateTime,
@@ -187,6 +183,8 @@ namespace SchulIT.UntisExport
             return value.Split(',')
                 .Select(x => x.Trim())
                 .Where(x => !settings.EmptyValues.Contains(x))
+                .Select(x => ClearString(x))
+                .Where(x => x != null)
                 .OrderBy(x => x).ToArray();
         }
 
@@ -211,7 +209,7 @@ namespace SchulIT.UntisExport
                 return null;
             }
 
-            return value;
+            return ClearString(value);
         }
 
         private int ParseIntegerColumn(string value)
@@ -298,6 +296,22 @@ namespace SchulIT.UntisExport
         {
             // First idea: simply remove all opening <p> tags as they are never closed.
             return htmlInput.Replace("<p>", "");
+        }
+
+        private string ClearString(string input)
+        {
+            input = input.Replace("\r\n", "")
+                    .Replace("\n", "")
+                    .Replace("\r", "")
+                    .Replace("&nbsp;", " ")
+                    .Trim();
+
+            if(string.IsNullOrWhiteSpace(input))
+            {
+                return null;
+            }
+
+            return input;
         }
 
         private class ColumnOrder
