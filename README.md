@@ -7,7 +7,7 @@ Mithilfe dieser Bibliothek kann der Untis-Vertretungsplan ausgelesen werden. Daz
 
 ## Installation
 
-Die Installation erfolgt via NuGet.
+Die Installation erfolgt via [NuGet](https://www.nuget.org/packages/SchulIT.UntisExport/).
 
 ## Nutzung
 
@@ -31,6 +31,7 @@ Mithilfe der `ExportSettings` können folgende Dinge eingestellt werden:
 * Liste von Werten, die als leer gewertet werden sollen (bspw. "---")
 * ob Werte, die als absent gekennzeichnet werden (in Untis durch ergänzen von Klammern, also bspw. "(05A"), als leer gewertet werden sollen
 * mit den `ColumnSettings` lassen sich noch die Spaltennamen anpassen
+* mit den `AbsenceSettings` lassen sich auch Absenzen parsen
 
 ## Lizenz
 
