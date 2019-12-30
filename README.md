@@ -17,6 +17,11 @@ var settings = new ExportSettings();
 
 var result = await exporter.ParseHtmlAsync(html);
 ```
+
+## Einrichtung von Untis
+
+Die Einrichtung von Untis ist [hier](doc/untis.md) beschrieben.
+
 ### Anpassungen
 
 Mithilfe der `ExportSettings` können folgende Dinge eingestellt werden:
