@@ -109,12 +109,12 @@ namespace SchulIT.UntisExport
 
                 if (infotext.Text.StartsWith(absenceSettings.TeacherIdentifier))
                 {
-                    absences.AddRange(ParseAbsence(infotext.Text.Substring(absenceSettings.TeacherIdentifier.Length), Absence.ObjectiveType.Teacher));
+                    absences.AddRange(ParseAbsence(infotext.Text.Substring(absenceSettings.TeacherIdentifier.Length), Absence.ObjectiveType.Teacher, infotext.Date));
                     removeIdx.Add(idx);
                 }
                 else if (infotext.Text.StartsWith(absenceSettings.StudyGroupIdentifier))
                 {
-                    absences.AddRange(ParseAbsence(infotext.Text.Substring(absenceSettings.StudyGroupIdentifier.Length), Absence.ObjectiveType.StudyGroup));
+                    absences.AddRange(ParseAbsence(infotext.Text.Substring(absenceSettings.StudyGroupIdentifier.Length), Absence.ObjectiveType.StudyGroup, infotext.Date));
                     removeIdx.Add(idx);
                 }
             }
@@ -130,7 +130,7 @@ namespace SchulIT.UntisExport
             return absences;
         }
 
-        private List<Absence> ParseAbsence(string absenceText, Absence.ObjectiveType type)
+        private List<Absence> ParseAbsence(string absenceText, Absence.ObjectiveType type, DateTime date)
         {
             var absences = new List<Absence>();
 
@@ -138,6 +138,7 @@ namespace SchulIT.UntisExport
             {
                 var absence = new Absence
                 {
+                    Date = date,
                     Type = type
                 };
 

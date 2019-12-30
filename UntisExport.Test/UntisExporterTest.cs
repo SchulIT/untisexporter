@@ -135,6 +135,7 @@ namespace UntisExport.Test
             Assert.AreEqual(1, absenceAB.LessonStart);
             Assert.AreEqual(1, absenceAB.LessonEnd);
             Assert.AreEqual(SchulIT.UntisExport.Model.Absence.ObjectiveType.Teacher, absenceAB.Type);
+            Assert.AreEqual(DateTime.Parse("2019-06-10"), absenceAB.Date);
 
             var absenceBC = result.Absences.FirstOrDefault(x => x.Objective == "BC");
             Assert.IsNotNull(absenceBC);
