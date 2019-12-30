@@ -12,11 +12,14 @@ namespace SchulIT.UntisExport
 
         public IReadOnlyList<Infotext> Infotexts { get; private set; }
 
-        public ExportResult(DateTime date, IReadOnlyList<Substitution> substitutions, IReadOnlyList<Infotext> infotexts)
+        public IReadOnlyList<Absence> Absences { get; private set; }
+
+        public ExportResult(DateTime date, IReadOnlyList<Substitution> substitutions, IReadOnlyList<Infotext> infotexts, IReadOnlyList<Absence> absences)
         {
             Date = date;
             Substitutions = substitutions;
             Infotexts = infotexts;
+            Absences = absences;
         }
     }
 }

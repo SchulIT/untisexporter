@@ -30,5 +30,10 @@ namespace SchulIT.UntisExport
         /// Specifies the column headers for the data (defaults to the German column names).
         /// </summary>
         public ColumnSettings ColumnSettings { get; } = new ColumnSettings();
+
+        /// <summary>
+        /// Specifies the settings for parsing absences (if desired).
+        /// </summary>
+        public AbsenceSettings AbsenceSettings { get; } = new AbsenceSettings();
     }
 }

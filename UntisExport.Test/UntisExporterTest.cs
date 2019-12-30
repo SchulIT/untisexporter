@@ -29,6 +29,7 @@ namespace UntisExport.Test
         {
             var exporter = new UntisExporter();
             var settings = new ExportSettings();
+            settings.AbsenceSettings.ParseAbsences = false;
 
             var html = HtmlTestCases.GetNormalHtmlText();
             var result = await exporter.ParseHtmlAsync(settings, html);
@@ -88,6 +89,83 @@ namespace UntisExport.Test
             CollectionAssert.AreEqual(new string[] { "08A", "08B", "08C" }, substitutionWithMultipleStudyGroups.Grade.ToArray());
             Assert.AreEqual(0, substitutionWithMultipleStudyGroups.ReplacementGrades.Count, "Replacement grades must be empty as its value is embraced with ( and )");
             Assert.AreEqual(0, substitutionWithMultipleStudyGroups.ReplacementTeachers.Count, "ReplacementTeachers must be empty as its value is '---'");
+        }
+
+        [TestMethod]
+        public async Task TestNormalDataWithAbsencesNoAbsenceParsing()
+        {
+            var exporter = new UntisExporter();
+            var settings = new ExportSettings();
+            settings.AbsenceSettings.ParseAbsences = false;
+
+            var html = HtmlTestCases.GetNormalHtmlTextWithAbsences();
+            var result = await exporter.ParseHtmlAsync(settings, html);
+
+            Assert.AreEqual(DateTime.Parse("2019-06-10"), result.Date);
+
+            Assert.AreEqual(6, result.Infotexts.Count);
+            Assert.AreEqual(result.Date, result.Infotexts[0].Date);
+            Assert.AreEqual("Unterrichtsfrei 1-3 Std.", result.Infotexts[0].Text);
+            Assert.AreEqual(result.Date, result.Infotexts[1].Date);
+            Assert.AreEqual("Infotext 1", result.Infotexts[1].Text);
+            Assert.AreEqual(result.Date, result.Infotexts[2].Date);
+            Assert.AreEqual("Infotext 2", result.Infotexts[2].Text);
+            Assert.AreEqual(result.Date, result.Infotexts[3].Date);
+            Assert.AreEqual("Infotext mit HTML", result.Infotexts[3].Text);
+            Assert.AreEqual(result.Date, result.Infotexts[4].Date);
+            Assert.AreEqual("Abwesende Lehrer AB (1-1), BC, CD (1-5)", result.Infotexts[4].Text);
+            Assert.AreEqual("Abwesende Klassen 05A (3-8), 05B (3-3), 05C", result.Infotexts[5].Text);
+        }
+
+        [TestMethod]
+        public async Task TestNormalDataWithAbsentTeachersAndGrades()
+        {
+            var exporter = new UntisExporter();
+            var settings = new ExportSettings();
+            settings.AbsenceSettings.ParseAbsences = true;
+
+            var html = HtmlTestCases.GetNormalHtmlTextWithAbsences();
+            var result = await exporter.ParseHtmlAsync(settings, html);
+
+            Assert.AreEqual(6, result.Absences.Count);
+
+            // Teachers
+            var absenceAB = result.Absences.FirstOrDefault(x => x.Objective == "AB");
+            Assert.IsNotNull(absenceAB);
+            Assert.AreEqual(1, absenceAB.LessonStart);
+            Assert.AreEqual(1, absenceAB.LessonEnd);
+            Assert.AreEqual(SchulIT.UntisExport.Model.Absence.ObjectiveType.Teacher, absenceAB.Type);
+
+            var absenceBC = result.Absences.FirstOrDefault(x => x.Objective == "BC");
+            Assert.IsNotNull(absenceBC);
+            Assert.IsNull(absenceBC.LessonStart);
+            Assert.IsNull(absenceBC.LessonEnd);
+            Assert.AreEqual(SchulIT.UntisExport.Model.Absence.ObjectiveType.Teacher, absenceBC.Type);
+
+            var absenceCD = result.Absences.FirstOrDefault(x => x.Objective == "CD");
+            Assert.IsNotNull(absenceCD);
+            Assert.AreEqual(1, absenceCD.LessonStart);
+            Assert.AreEqual(5, absenceCD.LessonEnd);
+            Assert.AreEqual(SchulIT.UntisExport.Model.Absence.ObjectiveType.Teacher, absenceCD.Type);
+
+            // Grades
+            var absence5A = result.Absences.FirstOrDefault(x => x.Objective == "05A");
+            Assert.IsNotNull(absence5A);
+            Assert.AreEqual(3, absence5A.LessonStart);
+            Assert.AreEqual(8, absence5A.LessonEnd);
+            Assert.AreEqual(SchulIT.UntisExport.Model.Absence.ObjectiveType.StudyGroup, absence5A.Type);
+
+            var absence5B = result.Absences.FirstOrDefault(x => x.Objective == "05B");
+            Assert.IsNotNull(absence5B);
+            Assert.AreEqual(3, absence5B.LessonStart);
+            Assert.AreEqual(3, absence5B.LessonEnd);
+            Assert.AreEqual(SchulIT.UntisExport.Model.Absence.ObjectiveType.StudyGroup, absence5B.Type);
+
+            var absence5C = result.Absences.FirstOrDefault(x => x.Objective == "05C");
+            Assert.IsNotNull(absence5C);
+            Assert.IsNull(absence5C.LessonStart);
+            Assert.IsNull(absence5C.LessonEnd);
+            Assert.AreEqual(SchulIT.UntisExport.Model.Absence.ObjectiveType.StudyGroup, absence5C.Type);
         }
 
         [TestMethod]

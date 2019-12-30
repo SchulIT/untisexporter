@@ -24,6 +24,11 @@ namespace UntisExport.Test
             return LoadFile("test.htm");
         }
 
+        public static string GetNormalHtmlTextWithAbsences()
+        {
+            return LoadFile("test_absence.htm");
+        }
+
         public static string GetHtmlWithEmptyData()
         {
             return LoadFile("test_empty.htm");

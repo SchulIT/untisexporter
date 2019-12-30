@@ -35,11 +35,14 @@ namespace SchulIT.UntisExport
 
                 // Step 3: Retrieve InfoTexts
                 var infoTexts = GetInfotexts(document, date);
+                
+                // Step 4: Parse absences
+                var absences = GetAbsences(infoTexts, settings.AbsenceSettings);
 
-                // Step 4: Retrieve Substitutions
+                // Step 5: Retrieve Substitutions
                 var substitutions = GetSubstitutions(document, date, settings);
 
-                return new ExportResult(date, substitutions.AsReadOnly(), infoTexts.AsReadOnly());
+                return new ExportResult(date, substitutions.AsReadOnly(), infoTexts.AsReadOnly(), absences.AsReadOnly());
             });
         }
 
@@ -88,6 +91,85 @@ namespace SchulIT.UntisExport
             }
 
             return infoTexts;
+        }
+
+        private List<Absence> GetAbsences(List<Infotext> infotexts, AbsenceSettings absenceSettings)
+        {
+            if (absenceSettings.ParseAbsences == false)
+            {
+                return new List<Absence>();
+            }
+
+            var absences = new List<Absence>();
+            var removeIdx = new List<int>();
+
+            for (int idx = 0; idx < infotexts.Count; idx++)
+            {
+                var infotext = infotexts[idx];
+
+                if (infotext.Text.StartsWith(absenceSettings.TeacherIdentifier))
+                {
+                    absences.AddRange(ParseAbsence(infotext.Text.Substring(absenceSettings.TeacherIdentifier.Length), Absence.ObjectiveType.Teacher));
+                    removeIdx.Add(idx);
+                }
+                else if (infotext.Text.StartsWith(absenceSettings.StudyGroupIdentifier))
+                {
+                    absences.AddRange(ParseAbsence(infotext.Text.Substring(absenceSettings.StudyGroupIdentifier.Length), Absence.ObjectiveType.StudyGroup));
+                    removeIdx.Add(idx);
+                }
+            }
+
+            removeIdx.Sort();
+            removeIdx.Reverse();
+
+            foreach(int idx in removeIdx)
+            {
+                infotexts.RemoveAt(idx);
+            }
+
+            return absences;
+        }
+
+        private List<Absence> ParseAbsence(string absenceText, Absence.ObjectiveType type)
+        {
+            var absences = new List<Absence>();
+
+            foreach(var part in absenceText.Split(','))
+            {
+                var absence = new Absence
+                {
+                    Type = type
+                };
+
+                var posLeftBracket = part.IndexOf('(');
+                var posRightBracked = part.IndexOf(')');
+
+                if (posLeftBracket >= 0 && posRightBracked >= 0)
+                {
+                    var bracket = part.Substring(posLeftBracket + 1, posRightBracked - posLeftBracket - 1).Trim();
+                    var lessons = bracket.Split('-').Select(x => int.Parse(x.Trim())).ToArray();
+
+                    absence.Objective = part.Substring(0, posLeftBracket).Trim();
+
+                    if (lessons.Length > 0)
+                    {
+                        absence.LessonStart = lessons[0];
+                    }
+
+                    if (lessons.Length > 1)
+                    {
+                        absence.LessonEnd = lessons[1];
+                    }
+                }
+                else
+                {
+                    absence.Objective = part.Trim();
+                }
+
+                absences.Add(absence);
+            }
+
+            return absences;
         }
 
         private List<Substitution> GetSubstitutions(HtmlDocument document, DateTime dateTime, ExportSettings settings)
