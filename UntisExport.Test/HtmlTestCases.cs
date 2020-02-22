@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Reflection;
+using System.Text;
 
 namespace UntisExport.Test
 {
@@ -9,12 +10,17 @@ namespace UntisExport.Test
         {
             var assembly = Assembly.GetExecutingAssembly();
             var resourceName = $"UntisExport.Test.{file}";
+            var inputEncoding = Encoding.GetEncoding("iso-8859-1");
 
             using (Stream stream = assembly.GetManifestResourceStream(resourceName))
             {
-                using (StreamReader reader = new StreamReader(stream))
+                using (StreamReader reader = new StreamReader(stream, inputEncoding))
                 {
-                    return reader.ReadToEnd();
+                    var html = reader.ReadToEnd();
+                    var bytes = inputEncoding.GetBytes(html);
+                    var utf8bytes = Encoding.Convert(inputEncoding, Encoding.UTF8, bytes);
+
+                    return Encoding.UTF8.GetString(utf8bytes);
                 }
             }
         }
@@ -37,6 +43,11 @@ namespace UntisExport.Test
         public static string GetHtmlWithInvalidDate()
         {
             return LoadFile("test_invaliddate.htm");
+        }
+
+        public static string GetExamsHtml()
+        {
+            return LoadFile("text_exams.htm");
         }
     }
 }

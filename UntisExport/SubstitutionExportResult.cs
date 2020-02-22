@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace SchulIT.UntisExport
 {
-    public class ExportResult
+    public class SubstitutionExportResult
     {
         public DateTime Date { get; private set; }
 
@@ -14,7 +14,7 @@ namespace SchulIT.UntisExport
 
         public IReadOnlyList<Absence> Absences { get; private set; }
 
-        public ExportResult(DateTime date, IReadOnlyList<Substitution> substitutions, IReadOnlyList<Infotext> infotexts, IReadOnlyList<Absence> absences)
+        public SubstitutionExportResult(DateTime date, IReadOnlyList<Substitution> substitutions, IReadOnlyList<Infotext> infotexts, IReadOnlyList<Absence> absences)
         {
             Date = date;
             Substitutions = substitutions;

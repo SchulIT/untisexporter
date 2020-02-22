@@ -2,7 +2,7 @@
 
 namespace SchulIT.UntisExport
 {
-    public class ExportSettings
+    public class SubstitutionExportSettings
     {
         /// <summary>
         /// Untis does not produce valid HTML as it opens <p>-tags without closing them.
@@ -29,7 +29,7 @@ namespace SchulIT.UntisExport
         /// <summary>
         /// Specifies the column headers for the data (defaults to the German column names).
         /// </summary>
-        public ColumnSettings ColumnSettings { get; } = new ColumnSettings();
+        public SubstitutionColumnSettings ColumnSettings { get; } = new SubstitutionColumnSettings();
 
         /// <summary>
         /// Specifies the settings for parsing absences (if desired).

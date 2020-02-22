@@ -1,6 +1,6 @@
 ﻿namespace SchulIT.UntisExport
 {
-    public class ColumnSettings
+    public class SubstitutionColumnSettings
     {
         public string IdColumn { get; set; } = "Vtr-Nr.";
         public string DateColumn { get; set; } = "Datum";

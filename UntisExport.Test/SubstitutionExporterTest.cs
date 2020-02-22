@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 namespace UntisExport.Test
 {
     [TestClass]
-    public class UntisExporterTest
+    public class SubstitutionExporterTest
     {
         [TestMethod]
         public async Task TestEmptyData()
         {
-            var exporter = new UntisExporter();
-            var settings = new ExportSettings();
+            var exporter = new SubstitutionExporter();
+            var settings = new SubstitutionExportSettings();
 
             var html = HtmlTestCases.GetHtmlWithEmptyData();
             var result = await exporter.ParseHtmlAsync(settings, html);
@@ -27,8 +27,8 @@ namespace UntisExport.Test
         [TestMethod]
         public async Task TestNormalData()
         {
-            var exporter = new UntisExporter();
-            var settings = new ExportSettings();
+            var exporter = new SubstitutionExporter();
+            var settings = new SubstitutionExportSettings();
             settings.AbsenceSettings.ParseAbsences = false;
 
             var html = HtmlTestCases.GetNormalHtmlText();
@@ -94,8 +94,8 @@ namespace UntisExport.Test
         [TestMethod]
         public async Task TestNormalDataWithAbsencesNoAbsenceParsing()
         {
-            var exporter = new UntisExporter();
-            var settings = new ExportSettings();
+            var exporter = new SubstitutionExporter();
+            var settings = new SubstitutionExportSettings();
             settings.AbsenceSettings.ParseAbsences = false;
 
             var html = HtmlTestCases.GetNormalHtmlTextWithAbsences();
@@ -120,8 +120,8 @@ namespace UntisExport.Test
         [TestMethod]
         public async Task TestNormalDataWithAbsentTeachersAndGrades()
         {
-            var exporter = new UntisExporter();
-            var settings = new ExportSettings();
+            var exporter = new SubstitutionExporter();
+            var settings = new SubstitutionExportSettings();
             settings.AbsenceSettings.ParseAbsences = true;
 
             var html = HtmlTestCases.GetNormalHtmlTextWithAbsences();
@@ -172,8 +172,8 @@ namespace UntisExport.Test
         [TestMethod]
         public async Task TestNormalDataWithAbsentValuesIncluded()
         {
-            var exporter = new UntisExporter();
-            var settings = new ExportSettings();
+            var exporter = new SubstitutionExporter();
+            var settings = new SubstitutionExportSettings();
             settings.IncludeAbsentValues = true;
             settings.EmptyValues.Clear();
 
@@ -193,8 +193,8 @@ namespace UntisExport.Test
         [TestMethod]
         public async Task TestEmptyCells()
         {
-            var exporter = new UntisExporter();
-            var settings = new ExportSettings();
+            var exporter = new SubstitutionExporter();
+            var settings = new SubstitutionExportSettings();
 
             var html = HtmlTestCases.GetNormalHtmlText();
             var result = await exporter.ParseHtmlAsync(settings, html);
@@ -214,8 +214,8 @@ namespace UntisExport.Test
         [ExpectedException(typeof(ParseException))]
         public async Task TestInvalidDateThrowsParseException()
         {
-            var exporter = new UntisExporter();
-            var settings = new ExportSettings();
+            var exporter = new SubstitutionExporter();
+            var settings = new SubstitutionExportSettings();
 
             var html = HtmlTestCases.GetHtmlWithInvalidDate();
             var result = await exporter.ParseHtmlAsync(settings, html);

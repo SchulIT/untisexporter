@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SchulIT.UntisExport
 {
-    public class UntisExporter : IUntisExporter
+    public class SubstitutionExporter : AbstractExporter, ISubstitutionExporter
     {
         private const string DateSelectorClass = "mon_title";
         private const string InfoTableSelectorClass = "info";
@@ -16,7 +16,7 @@ namespace SchulIT.UntisExport
         private const string SubstitutionsTableSelectorClass = "mon_list";
         private const string SubstitutionEntryClass = "list";
 
-        public Task<ExportResult> ParseHtmlAsync(ExportSettings settings, string html)
+        public Task<SubstitutionExportResult> ParseHtmlAsync(SubstitutionExportSettings settings, string html)
         {
             return Task.Run(() =>
             {
@@ -42,26 +42,8 @@ namespace SchulIT.UntisExport
                 // Step 5: Retrieve Substitutions
                 var substitutions = GetSubstitutions(document, date, settings);
 
-                return new ExportResult(date, substitutions.AsReadOnly(), infoTexts.AsReadOnly(), absences.AsReadOnly());
+                return new SubstitutionExportResult(date, substitutions.AsReadOnly(), infoTexts.AsReadOnly(), absences.AsReadOnly());
             });
-        }
-
-        private DateTime ParseDate(string dateString, string dateFormat)
-        {
-            var parts = dateString.Split(' ');
-            var provider = CultureInfo.InvariantCulture;
-
-            foreach(var part in parts)
-            {
-                DateTime dateTime;
-
-                if(DateTime.TryParseExact(part, dateFormat, provider, DateTimeStyles.None, out dateTime))
-                {
-                    return dateTime;
-                }
-            }
-
-            throw new ParseException("Cannot parse date from HTML");
         }
 
         private List<Infotext> GetInfotexts(HtmlDocument document, DateTime dateTime)
@@ -173,7 +155,7 @@ namespace SchulIT.UntisExport
             return absences;
         }
 
-        private List<Substitution> GetSubstitutions(HtmlDocument document, DateTime dateTime, ExportSettings settings)
+        private List<Substitution> GetSubstitutions(HtmlDocument document, DateTime dateTime, SubstitutionExportSettings settings)
         {
             var substitutions = new List<Substitution>();
 
@@ -229,29 +211,11 @@ namespace SchulIT.UntisExport
             return substitutions;
         }
 
-        private T ParseCell<T>(string[] cells, int? columnIndex, Func<string, T> parseFunc, T defaultValue)
-        {
-            if(columnIndex.HasValue == false)
-            {
-                return defaultValue;
-            }
-
-            var index = columnIndex.Value;
-
-            if(index < 0 || index > cells.Length - 1)
-            {
-                return defaultValue;
-            }
-
-            var value = cells[index];
-            return parseFunc(value);
-        }
-
-        private string[] ParseMultiValueStringColumn(string value, ExportSettings settings)
+        private string[] ParseMultiValueStringColumn(string value, SubstitutionExportSettings settings)
         {
             value = value.Trim();
 
-            if(value.StartsWith("(") && value.EndsWith(")"))
+            if (value.StartsWith("(") && value.EndsWith(")"))
             {
                 if (settings.IncludeAbsentValues)
                 {
@@ -271,7 +235,7 @@ namespace SchulIT.UntisExport
                 .OrderBy(x => x).ToArray();
         }
 
-        private string ParseStringColumn(string value, ExportSettings settings)
+        private string ParseStringColumn(string value, SubstitutionExportSettings settings)
         {
             value = value.Trim();
 
@@ -295,10 +259,6 @@ namespace SchulIT.UntisExport
             return ClearString(value);
         }
 
-        private int ParseIntegerColumn(string value)
-        {
-            return int.Parse(value.Trim());
-        }
 
         private Tuple<int,int> ParseLessonColumn(string value, out bool isSupervision)
         {
@@ -331,7 +291,7 @@ namespace SchulIT.UntisExport
             throw new ParseException($"Cannot parse lesson: '{value}'");
         }
 
-        private ColumnOrder GetColumnOrder(HtmlNode headerNode, ColumnSettings settings)
+        private ColumnOrder GetColumnOrder(HtmlNode headerNode, SubstitutionColumnSettings settings)
         {
             var columns = headerNode.SelectNodes("./th");
             var texts = columns.Select(x => x.InnerText).Select((x, i) => new { Key = i, Value = x }).ToDictionary(x => x.Value, x => x.Key);
@@ -354,47 +314,12 @@ namespace SchulIT.UntisExport
             };
         }
 
-        private int? GetColumnIndexOrNull(Dictionary<string, int> dictionary, string column)
-        {
-            if(column == null)
-            {
-                return null;
-            }
-
-            if(!dictionary.ContainsKey(column))
-            {
-                return null;
-            }
-
-            return dictionary[column];
-        }
-
-
-        private List<string> SplitColumnValue(string column)
-        {
-            return column.Split(',').Select(x => x.Trim()).OrderBy(x => x).ToList();
-        }
+        
 
         private string FixHtml(string htmlInput)
         {
             // First idea: simply remove all opening <p> tags as they are never closed.
             return htmlInput.Replace("<p>", "");
-        }
-
-        private string ClearString(string input)
-        {
-            input = input.Replace("\r\n", "")
-                    .Replace("\n", "")
-                    .Replace("\r", "")
-                    .Replace("&nbsp;", " ")
-                    .Trim();
-
-            if(string.IsNullOrWhiteSpace(input))
-            {
-                return null;
-            }
-
-            return input;
         }
 
         private class ColumnOrder

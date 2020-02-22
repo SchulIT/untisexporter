@@ -11,6 +11,7 @@
     <None Remove="test_absence.htm" />
     <None Remove="test_empty.htm" />
     <None Remove="test_invaliddate.htm" />
+    <None Remove="text_exams.htm" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,6 +35,7 @@
     <EmbeddedResource Include="test.htm" />
     <EmbeddedResource Include="test_invaliddate.htm" />
     <EmbeddedResource Include="test_empty.htm" />
+    <EmbeddedResource Include="text_exams.htm" />
   </ItemGroup>
 
 </Project>
