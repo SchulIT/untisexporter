@@ -11,6 +11,21 @@ Die Installation erfolgt via [NuGet](https://www.nuget.org/packages/SchulIT.Unti
 
 ## Nutzung
 
+Zunächst muss die HTML-Datei eingelesen werden. **Wichtig:** Da Untis nicht UTF-8 sondern ISO-8859-1 verwendet, muss dies berücksichtigt werden:
+
+```csharp
+var inputEncoding = Encoding.GetEncoding("iso-8859-1");
+
+using (StreamReader reader = new StreamReader(stream, inputEncoding))
+{
+    var html = reader.ReadToEnd(); // Alternativ kann natürlich auch ReadToEndAsync() verwendet werden
+    var bytes = inputEncoding.GetBytes(html);
+    var utf8bytes = Encoding.Convert(inputEncoding, Encoding.UTF8, bytes);
+
+    return Encoding.UTF8.GetString(utf8bytes);
+}
+```
+
 ### Vertretungen, Infotexte und Absenzen
 
 ```csharp
