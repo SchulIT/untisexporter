@@ -37,7 +37,7 @@ namespace UntisExport.Test
             Assert.AreEqual(6, examWithDescription.LessonEnd);
             CollectionAssert.AreEqual(new string[] { "Q2" }, examWithDescription.Grades.ToArray());
             CollectionAssert.AreEqual(new string[] { "E-LK2" }, examWithDescription.Courses.ToArray());
-            CollectionAssert.AreEqual(new string[] { "ABC", "ABC", "CDE", "CDE", "DEF", "DEF" }, examWithDescription.Teachers.ToArray());
+            CollectionAssert.AreEqual(new string[] { "CDE", "CDE", "ABC", "ABC", "DEF", "DEF" }, examWithDescription.Teachers.ToArray());
             CollectionAssert.AreEqual(new string[] { "A001", "A001", "A001", "A001", "A001", "A001" }, examWithDescription.Rooms.ToArray());
             Assert.AreEqual("Lorem ipsum dolor.", examWithDescription.Description);
             Assert.AreEqual("A20-LK1", examWithoutDescription.Name);

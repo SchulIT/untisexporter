@@ -26,6 +26,6 @@
 
         public string NameColumn { get; set; } = "Name";
 
-        public string DescriptionColumn { get; set; } = "Text";
+        public string RemarkColumn { get; set; } = "Text";
     }
 }

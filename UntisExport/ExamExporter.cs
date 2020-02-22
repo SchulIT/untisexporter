@@ -73,7 +73,7 @@ namespace SchulIT.UntisExport
             return value.Split(separator)
                 .Select(x => ClearString(x))
                 .Where(x => x != null)
-                .OrderBy(x => x).ToArray();
+                .ToArray();
         }
 
         private ColumnOrder GetColumnOrder(HtmlNode headerNode, ExamColumnSettings settings)
@@ -91,7 +91,7 @@ namespace SchulIT.UntisExport
                 CoursesColumn = GetColumnIndexOrNull(texts, settings.CoursesColumn),
                 TeachersColumn = GetColumnIndexOrNull(texts, settings.TeachersColumn),
                 RoomsColumn = GetColumnIndexOrNull(texts, settings.RoomsColumn),
-                DescriptionColumn = GetColumnIndexOrNull(texts, settings.DescriptionColumn)
+                DescriptionColumn = GetColumnIndexOrNull(texts, settings.RemarkColumn)
             };
         }
 
