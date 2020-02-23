@@ -4,12 +4,12 @@ using System.Text;
 
 namespace UntisExport.Test
 {
-    public static class HtmlTestCases
+    public abstract class AbstractHtmlTestCase
     {
-        private static string LoadFile(string file)
+        protected string LoadFile(string file)
         {
             var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = $"UntisExport.Test.{file}";
+            var resourceName = $"{GetType().Namespace}.{file}";
             var inputEncoding = Encoding.GetEncoding("iso-8859-1");
 
             using (Stream stream = assembly.GetManifestResourceStream(resourceName))
@@ -23,31 +23,6 @@ namespace UntisExport.Test
                     return Encoding.UTF8.GetString(utf8bytes);
                 }
             }
-        }
-
-        public static string GetNormalHtmlText()
-        {
-            return LoadFile("test.htm");
-        }
-
-        public static string GetNormalHtmlTextWithAbsences()
-        {
-            return LoadFile("test_absence.htm");
-        }
-
-        public static string GetHtmlWithEmptyData()
-        {
-            return LoadFile("test_empty.htm");
-        }
-
-        public static string GetHtmlWithInvalidDate()
-        {
-            return LoadFile("test_invaliddate.htm");
-        }
-
-        public static string GetExamsHtml()
-        {
-            return LoadFile("text_exams.htm");
         }
     }
 }

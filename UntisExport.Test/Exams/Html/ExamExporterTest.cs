@@ -4,10 +4,10 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace UntisExport.Test
+namespace UntisExport.Test.Exams.Html
 {
     [TestClass]
-    public class ExamExporterTest
+    public class ExamExporterTest : AbstractHtmlTestCase
     {
         [TestMethod]
         public async Task TestNormalData()
@@ -15,7 +15,7 @@ namespace UntisExport.Test
             var exporter = new ExamExporter();
             var settings = new ExamExportSettings();
 
-            var html = HtmlTestCases.GetExamsHtml();
+            var html = GetExamsHtml();
             var result = await exporter.ParseHtmlAsync(settings, html);
 
             Assert.AreEqual(3, result.Exams.Count);
@@ -52,6 +52,11 @@ namespace UntisExport.Test
             CollectionAssert.AreEqual(Array.Empty<string>(), examWithEmptyValuesAndMultipleCourses.Rooms.ToArray());
             Assert.IsNull(examWithEmptyValuesAndMultipleCourses.Description);
             Assert.IsNull(examWithEmptyValuesAndMultipleCourses.Name);
+        }
+
+        private string GetExamsHtml()
+        {
+            return LoadFile("test_exams.htm");
         }
     }
 }

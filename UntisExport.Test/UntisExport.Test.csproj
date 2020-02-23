@@ -31,11 +31,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="test_absence.htm" />
-    <EmbeddedResource Include="test.htm" />
-    <EmbeddedResource Include="test_invaliddate.htm" />
-    <EmbeddedResource Include="test_empty.htm" />
-    <EmbeddedResource Include="text_exams.htm" />
+    <EmbeddedResource Include="Substitutions\Html\test_absence.htm" />
+    <EmbeddedResource Include="Substitutions\Html\test.htm" />
+    <EmbeddedResource Include="Substitutions\Html\test_invaliddate.htm" />
+    <EmbeddedResource Include="Substitutions\Html\test_empty.htm" />
+    <EmbeddedResource Include="Exams\Html\test_exams.htm" />
   </ItemGroup>
 
 </Project>

@@ -6,10 +6,10 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace UntisExport.Test
+namespace UntisExport.Test.Substitutions.Html
 {
     [TestClass]
-    public class SubstitutionExporterTest
+    public class SubstitutionExporterTest : AbstractHtmlTestCase
     {
         [TestMethod]
         public async Task TestEmptyData()
@@ -17,7 +17,7 @@ namespace UntisExport.Test
             var exporter = new SubstitutionExporter();
             var settings = new SubstitutionExportSettings();
 
-            var html = HtmlTestCases.GetHtmlWithEmptyData();
+            var html = GetHtmlWithEmptyData();
             var result = await exporter.ParseHtmlAsync(settings, html);
 
             Assert.AreEqual(DateTime.Parse("2019-06-10"), result.Date);
@@ -33,7 +33,7 @@ namespace UntisExport.Test
             var settings = new SubstitutionExportSettings();
             settings.AbsenceSettings.ParseAbsences = false;
 
-            var html = HtmlTestCases.GetNormalHtmlText();
+            var html = GetNormalHtmlText();
             var result = await exporter.ParseHtmlAsync(settings, html);
 
             Assert.AreEqual(DateTime.Parse("2019-06-10"), result.Date);
@@ -100,7 +100,7 @@ namespace UntisExport.Test
             var settings = new SubstitutionExportSettings();
             settings.AbsenceSettings.ParseAbsences = false;
 
-            var html = HtmlTestCases.GetNormalHtmlTextWithAbsences();
+            var html = GetNormalHtmlTextWithAbsences();
             var result = await exporter.ParseHtmlAsync(settings, html);
 
             Assert.AreEqual(DateTime.Parse("2019-06-10"), result.Date);
@@ -126,7 +126,7 @@ namespace UntisExport.Test
             var settings = new SubstitutionExportSettings();
             settings.AbsenceSettings.ParseAbsences = true;
 
-            var html = HtmlTestCases.GetNormalHtmlTextWithAbsences();
+            var html = GetNormalHtmlTextWithAbsences();
             var result = await exporter.ParseHtmlAsync(settings, html);
 
             Assert.AreEqual(6, result.Absences.Count);
@@ -179,7 +179,7 @@ namespace UntisExport.Test
             settings.IncludeAbsentValues = true;
             settings.EmptyValues.Clear();
 
-            var html = HtmlTestCases.GetNormalHtmlText();
+            var html = GetNormalHtmlText();
             var result = await exporter.ParseHtmlAsync(settings, html);
 
             var substitutionWithMultipleStudyGroups = result.Substitutions.FirstOrDefault(x => x.Id == 6);
@@ -198,7 +198,7 @@ namespace UntisExport.Test
             var exporter = new SubstitutionExporter();
             var settings = new SubstitutionExportSettings();
 
-            var html = HtmlTestCases.GetNormalHtmlText();
+            var html = GetNormalHtmlText();
             var result = await exporter.ParseHtmlAsync(settings, html);
 
             var substitution = result.Substitutions.FirstOrDefault(x => x.Id == 3);
@@ -219,8 +219,28 @@ namespace UntisExport.Test
             var exporter = new SubstitutionExporter();
             var settings = new SubstitutionExportSettings();
 
-            var html = HtmlTestCases.GetHtmlWithInvalidDate();
+            var html = GetHtmlWithInvalidDate();
             var result = await exporter.ParseHtmlAsync(settings, html);
+        }
+
+        private string GetNormalHtmlText()
+        {
+            return LoadFile("test.htm");
+        }
+
+        private string GetNormalHtmlTextWithAbsences()
+        {
+            return LoadFile("test_absence.htm");
+        }
+
+        private string GetHtmlWithEmptyData()
+        {
+            return LoadFile("test_empty.htm");
+        }
+
+        private string GetHtmlWithInvalidDate()
+        {
+            return LoadFile("test_invaliddate.htm");
         }
     }
 }
