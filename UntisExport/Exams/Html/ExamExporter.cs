@@ -1,11 +1,10 @@
 ﻿using HtmlAgilityPack;
-using SchulIT.UntisExport.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SchulIT.UntisExport
+namespace SchulIT.UntisExport.Exams.Html
 {
     public class ExamExporter : AbstractExporter, IExamExporter
     {

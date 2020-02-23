@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SchulIT.UntisExport.Model
+namespace SchulIT.UntisExport.Substitutions
 {
     public class Substitution
     {

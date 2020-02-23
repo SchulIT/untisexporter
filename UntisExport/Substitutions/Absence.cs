@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SchulIT.UntisExport.Model
+namespace SchulIT.UntisExport.Substitutions
 {
     public class Absence
     {

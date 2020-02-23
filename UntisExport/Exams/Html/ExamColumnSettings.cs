@@ -1,4 +1,4 @@
-﻿namespace SchulIT.UntisExport
+﻿namespace SchulIT.UntisExport.Exams.Html
 {
     public class ExamColumnSettings
     {

@@ -1,5 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SchulIT.UntisExport;
+using SchulIT.UntisExport.Substitutions;
+using SchulIT.UntisExport.Substitutions.Html;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -134,39 +136,39 @@ namespace UntisExport.Test
             Assert.IsNotNull(absenceAB);
             Assert.AreEqual(1, absenceAB.LessonStart);
             Assert.AreEqual(1, absenceAB.LessonEnd);
-            Assert.AreEqual(SchulIT.UntisExport.Model.Absence.ObjectiveType.Teacher, absenceAB.Type);
+            Assert.AreEqual(Absence.ObjectiveType.Teacher, absenceAB.Type);
             Assert.AreEqual(DateTime.Parse("2019-06-10"), absenceAB.Date);
 
             var absenceBC = result.Absences.FirstOrDefault(x => x.Objective == "BC");
             Assert.IsNotNull(absenceBC);
             Assert.IsNull(absenceBC.LessonStart);
             Assert.IsNull(absenceBC.LessonEnd);
-            Assert.AreEqual(SchulIT.UntisExport.Model.Absence.ObjectiveType.Teacher, absenceBC.Type);
+            Assert.AreEqual(Absence.ObjectiveType.Teacher, absenceBC.Type);
 
             var absenceCD = result.Absences.FirstOrDefault(x => x.Objective == "CD");
             Assert.IsNotNull(absenceCD);
             Assert.AreEqual(1, absenceCD.LessonStart);
             Assert.AreEqual(5, absenceCD.LessonEnd);
-            Assert.AreEqual(SchulIT.UntisExport.Model.Absence.ObjectiveType.Teacher, absenceCD.Type);
+            Assert.AreEqual(Absence.ObjectiveType.Teacher, absenceCD.Type);
 
             // Grades
             var absence5A = result.Absences.FirstOrDefault(x => x.Objective == "05A");
             Assert.IsNotNull(absence5A);
             Assert.AreEqual(3, absence5A.LessonStart);
             Assert.AreEqual(8, absence5A.LessonEnd);
-            Assert.AreEqual(SchulIT.UntisExport.Model.Absence.ObjectiveType.StudyGroup, absence5A.Type);
+            Assert.AreEqual(Absence.ObjectiveType.StudyGroup, absence5A.Type);
 
             var absence5B = result.Absences.FirstOrDefault(x => x.Objective == "05B");
             Assert.IsNotNull(absence5B);
             Assert.AreEqual(3, absence5B.LessonStart);
             Assert.AreEqual(3, absence5B.LessonEnd);
-            Assert.AreEqual(SchulIT.UntisExport.Model.Absence.ObjectiveType.StudyGroup, absence5B.Type);
+            Assert.AreEqual(Absence.ObjectiveType.StudyGroup, absence5B.Type);
 
             var absence5C = result.Absences.FirstOrDefault(x => x.Objective == "05C");
             Assert.IsNotNull(absence5C);
             Assert.IsNull(absence5C.LessonStart);
             Assert.IsNull(absence5C.LessonEnd);
-            Assert.AreEqual(SchulIT.UntisExport.Model.Absence.ObjectiveType.StudyGroup, absence5C.Type);
+            Assert.AreEqual(Absence.ObjectiveType.StudyGroup, absence5C.Type);
         }
 
         [TestMethod]

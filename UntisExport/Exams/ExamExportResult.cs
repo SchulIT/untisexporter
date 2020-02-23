@@ -1,7 +1,6 @@
-﻿using SchulIT.UntisExport.Model;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace SchulIT.UntisExport
+namespace SchulIT.UntisExport.Exams
 {
     public class ExamExportResult
     {

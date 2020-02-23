@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SchulIT.UntisExport
+namespace SchulIT.UntisExport.Substitutions.Html
 {
     public class SubstitutionExportSettings
     {

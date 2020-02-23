@@ -1,4 +1,4 @@
-﻿namespace SchulIT.UntisExport
+﻿namespace SchulIT.UntisExport.Substitutions.Html
 {
     public class AbsenceSettings
     {
