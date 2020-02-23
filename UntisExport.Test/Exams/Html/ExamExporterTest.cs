@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace UntisExport.Test.Exams.Html
 {
     [TestClass]
-    public class ExamExporterTest : AbstractHtmlTestCase
+    public class ExamExporterTest : AbstractTestCase
     {
         [TestMethod]
         public async Task TestNormalData()

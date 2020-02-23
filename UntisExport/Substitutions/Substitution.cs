@@ -27,7 +27,7 @@ namespace SchulIT.UntisExport.Substitutions
 
         public ICollection<string> ReplacementTeachers { get; set; }
 
-        public ICollection<string> Grade { get; set; }
+        public ICollection<string> Grades { get; set; }
 
         public ICollection<string> ReplacementGrades { get; set; }
 

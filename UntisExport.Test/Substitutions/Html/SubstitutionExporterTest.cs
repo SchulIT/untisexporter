@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace UntisExport.Test.Substitutions.Html
 {
     [TestClass]
-    public class SubstitutionExporterTest : AbstractHtmlTestCase
+    public class SubstitutionExporterTest : AbstractTestCase
     {
         [TestMethod]
         public async Task TestEmptyData()
@@ -70,7 +70,7 @@ namespace UntisExport.Test.Substitutions.Html
             Assert.AreEqual("R002", substitution.ReplacementRoom);
             Assert.AreEqual("Raum-Vtr.", substitution.Type);
             Assert.AreEqual("Lorem ipsum", substitution.Remark);
-            CollectionAssert.AreEqual(new string[] { "EF" }, substitution.Grade.ToArray());
+            CollectionAssert.AreEqual(new string[] { "EF" }, substitution.Grades.ToArray());
             CollectionAssert.AreEqual(new string[] { "EF" }, substitution.ReplacementGrades.ToArray());
             CollectionAssert.AreEqual(new string[] { "XXXX" }, substitution.Teachers.ToArray());
             CollectionAssert.AreEqual(new string[] { "YYYY" }, substitution.ReplacementTeachers.ToArray());
@@ -87,8 +87,8 @@ namespace UntisExport.Test.Substitutions.Html
             var substitutionWithMultipleStudyGroups = result.Substitutions.FirstOrDefault(x => x.Id == 6);
             Assert.IsNotNull(substitutionWithMultipleStudyGroups);
             Assert.AreEqual(null, substitutionWithMultipleStudyGroups.ReplacementSubject, "ReplacementSubject must be null as its value is '---'");
-            Assert.AreEqual(3, substitutionWithMultipleStudyGroups.Grade.Count);
-            CollectionAssert.AreEqual(new string[] { "08A", "08B", "08C" }, substitutionWithMultipleStudyGroups.Grade.ToArray());
+            Assert.AreEqual(3, substitutionWithMultipleStudyGroups.Grades.Count);
+            CollectionAssert.AreEqual(new string[] { "08A", "08B", "08C" }, substitutionWithMultipleStudyGroups.Grades.ToArray());
             Assert.AreEqual(0, substitutionWithMultipleStudyGroups.ReplacementGrades.Count, "Replacement grades must be empty as its value is embraced with ( and )");
             Assert.AreEqual(0, substitutionWithMultipleStudyGroups.ReplacementTeachers.Count, "ReplacementTeachers must be empty as its value is '---'");
         }
@@ -186,8 +186,8 @@ namespace UntisExport.Test.Substitutions.Html
             Assert.IsNotNull(substitutionWithMultipleStudyGroups);
             Assert.AreEqual("---", substitutionWithMultipleStudyGroups.ReplacementSubject);
             CollectionAssert.AreEqual(new string[] { "---" }, substitutionWithMultipleStudyGroups.ReplacementTeachers.ToArray());
-            Assert.AreEqual(3, substitutionWithMultipleStudyGroups.Grade.Count);
-            CollectionAssert.AreEqual(new string[] { "08A", "08B", "08C" }, substitutionWithMultipleStudyGroups.Grade.ToArray());
+            Assert.AreEqual(3, substitutionWithMultipleStudyGroups.Grades.Count);
+            CollectionAssert.AreEqual(new string[] { "08A", "08B", "08C" }, substitutionWithMultipleStudyGroups.Grades.ToArray());
             Assert.AreEqual(3, substitutionWithMultipleStudyGroups.ReplacementGrades.Count);
             CollectionAssert.AreEqual(new string[] { "08A", "08B", "08C" }, substitutionWithMultipleStudyGroups.ReplacementGrades.ToArray());
         }
@@ -207,7 +207,7 @@ namespace UntisExport.Test.Substitutions.Html
 
             Assert.IsNull(substitution.Subject);
             Assert.IsNull(substitution.Room);
-            Assert.AreEqual(0, substitution.Grade.Count);
+            Assert.AreEqual(0, substitution.Grades.Count);
             Assert.AreEqual(0, substitution.ReplacementGrades.Count);
             Assert.AreEqual(0, substitution.Teachers.Count);
         }

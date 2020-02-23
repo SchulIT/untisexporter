@@ -201,7 +201,7 @@ namespace SchulIT.UntisExport.Substitutions.Html
 
                 substitution.Teachers = ParseCell(cells, order.TeachersColumn, x => ParseMultiValueStringColumn(x, settings), default);
                 substitution.ReplacementTeachers = ParseCell(cells, order.ReplacementTeachersColumn, x => ParseMultiValueStringColumn(x, settings), default);
-                substitution.Grade = ParseCell(cells, order.GradesColumn, x => ParseMultiValueStringColumn(x, settings), default);
+                substitution.Grades = ParseCell(cells, order.GradesColumn, x => ParseMultiValueStringColumn(x, settings), default);
                 substitution.ReplacementGrades = ParseCell(cells, order.ReplacementGradesColumn, x => ParseMultiValueStringColumn(x, settings), default);
 
                 substitutions.Add(substitution);

@@ -4,13 +4,13 @@ using System.Text;
 
 namespace UntisExport.Test
 {
-    public abstract class AbstractHtmlTestCase
+    public abstract class AbstractTestCase
     {
-        protected string LoadFile(string file)
+        protected string LoadFile(string file, string encoding = "iso-8859-1")
         {
             var assembly = Assembly.GetExecutingAssembly();
             var resourceName = $"{GetType().Namespace}.{file}";
-            var inputEncoding = Encoding.GetEncoding("iso-8859-1");
+            var inputEncoding = Encoding.GetEncoding(encoding);
 
             using (Stream stream = assembly.GetManifestResourceStream(resourceName))
             {
