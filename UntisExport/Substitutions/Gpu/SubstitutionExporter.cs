@@ -9,16 +9,17 @@ namespace SchulIT.UntisExport.Substitutions.Gpu
 {
     public class SubstitutionExporter : ISubstitutionExporter
     {
-        public Task<IEnumerable<Substitutions.Substitution>> ParseGpuAsync(string gpu, SubstitutionExportSettings settings)
+        public Task<IEnumerable<Substitution>> ParseGpuAsync(string gpu, SubstitutionExportSettings settings)
         {
             return Task.Run(() =>
             {
-                var engine = new FileHelperEngine(typeof(Substitution));
-                var result = engine.ReadString(gpu) as Substitution[];
+                var engine = new DelimitedFileEngine<GpuSubstitution>();
+                engine.Options.Delimiter = settings.Delimiter;
+                var result = engine.ReadString(gpu) as GpuSubstitution[];
 
                 var substitutions = result.Select(x =>
                 {
-                    return new Substitutions.Substitution
+                    return new Substitution
                     {
                         Id = x.Id,
                         Date = x.Date,
@@ -42,69 +43,69 @@ namespace SchulIT.UntisExport.Substitutions.Gpu
         }
 
         [DelimitedRecord(",")]
-        private class Substitution
+        private class GpuSubstitution
         {
-            public int Id;
+            public int Id { get; set; }
 
             [FieldQuoted('"', QuoteMode.OptionalForRead)]
             [FieldConverter(typeof(DateConverter))]
-            public DateTime Date;
+            public DateTime Date { get; set; }
 
-            public int Lesson;
+            public int Lesson { get; set; }
 
-            public int? AbsenceNumber;
+            public int? AbsenceNumber { get; set; }
 
-            public int TuitionNumber;
-
-            [FieldQuoted('"', QuoteMode.OptionalForRead)]
-            public string AbsenceTeacher;
+            public int TuitionNumber { get; set; }
 
             [FieldQuoted('"', QuoteMode.OptionalForRead)]
-            public string ReplacementTeacher;
+            public string AbsenceTeacher { get; set; }
 
             [FieldQuoted('"', QuoteMode.OptionalForRead)]
-            public string Subject;
-
-            public string StatisticsTagForSubject;
+            public string ReplacementTeacher { get; set; }
 
             [FieldQuoted('"', QuoteMode.OptionalForRead)]
-            public string ReplacementSubject;
+            public string Subject { get; set; }
 
-            public string StatisticsTagForReplacementSubject;
-
-            [FieldQuoted('"', QuoteMode.OptionalForRead)]
-            public string Room;
+            public string StatisticsTagForSubject { get; set; }
 
             [FieldQuoted('"', QuoteMode.OptionalForRead)]
-            public string ReplacementRoom;
+            public string ReplacementSubject { get; set; }
 
-            public string StatisticsTag;
+            public string StatisticsTagForReplacementSubject { get; set; }
+
+            [FieldQuoted('"', QuoteMode.OptionalForRead)]
+            public string Room { get; set; }
+
+            [FieldQuoted('"', QuoteMode.OptionalForRead)]
+            public string ReplacementRoom { get; set; }
+
+            public string StatisticsTag { get; set; }
 
             [FieldQuoted('"', QuoteMode.OptionalForRead)]
             
             [FieldConverter(typeof(SeparatedValuesConverter))]
-            public List<string> Grades;
+            public List<string> Grades { get; set; }
 
             [FieldQuoted('"', QuoteMode.OptionalForRead)]
-            public string AbsenceReason;
+            public string AbsenceReason { get; set; }
 
             [FieldQuoted('"', QuoteMode.OptionalForRead)]
-            public string Remark;
+            public string Remark { get; set; }
 
-            public int Type;
+            public int Type { get; set; }
 
             [FieldQuoted('"', QuoteMode.OptionalForRead)]
             [FieldConverter(typeof(SeparatedValuesConverter))]
-            public List<string> ReplacementGrades;
+            public List<string> ReplacementGrades { get; set; }
 
             [FieldQuoted('"', QuoteMode.OptionalForRead)]
-            public string SubstitutionType;
+            public string SubstitutionType { get; set; }
 
             [FieldQuoted('"', QuoteMode.OptionalForRead)]
             [FieldConverter(typeof(DateTimeConverter))]
-            public DateTime? LastChange;
+            public DateTime? LastChange { get; set; }
 
-            public string Footer;
+            public string Footer { get; set; }
         }
     }
 }
