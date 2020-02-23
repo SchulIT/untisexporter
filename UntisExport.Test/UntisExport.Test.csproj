@@ -7,6 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Exams\Gpu\GPU002.TXT" />
+    <None Remove="Exams\Gpu\GPU017-semicolon.TXT" />
+    <None Remove="Exams\Gpu\GPU017.TXT" />
     <None Remove="Substitutions\Gpo\GPU014-empty.TXT" />
     <None Remove="Substitutions\Gpo\GPU014.TXT" />
     <None Remove="Supervisions\Gpu\GPU009-semicolon.TXT" />
@@ -16,6 +19,8 @@
     <None Remove="test_empty.htm" />
     <None Remove="test_invaliddate.htm" />
     <None Remove="text_exams.htm" />
+    <None Remove="Tuitions\Gpu\GPU002-semicolon.TXT" />
+    <None Remove="Tuitions\Gpu\GPU002.TXT" />
   </ItemGroup>
 
   <ItemGroup>
@@ -35,6 +40,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Exams\Gpu\GPU002.TXT" />
+    <EmbeddedResource Include="Exams\Gpu\GPU017-semicolon.TXT" />
+    <EmbeddedResource Include="Exams\Gpu\GPU017.TXT" />
     <EmbeddedResource Include="Substitutions\Gpo\GPU014-empty.TXT" />
     <EmbeddedResource Include="Substitutions\Gpo\GPU014.TXT" />
     <EmbeddedResource Include="Substitutions\Html\test_absence.htm" />
@@ -44,6 +52,8 @@
     <EmbeddedResource Include="Exams\Html\test_exams.htm" />
     <EmbeddedResource Include="Supervisions\Gpu\GPU009-semicolon.TXT" />
     <EmbeddedResource Include="Supervisions\Gpu\GPU009.TXT" />
+    <EmbeddedResource Include="Tuitions\Gpu\GPU002-semicolon.TXT" />
+    <EmbeddedResource Include="Tuitions\Gpu\GPU002.TXT" />
   </ItemGroup>
 
 </Project>

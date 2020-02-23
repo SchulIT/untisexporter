@@ -26,9 +26,9 @@ namespace UntisExport.Test.Exams.Html
             Assert.AreEqual(6, examWithoutDescription.LessonEnd);
             CollectionAssert.AreEqual(new string[] { "Q2" }, examWithoutDescription.Grades.ToArray());
             CollectionAssert.AreEqual(new string[] { "D-LK1" }, examWithoutDescription.Courses.ToArray());
-            CollectionAssert.AreEqual(new string[] { "ABC", "ABC", "CDE", "CDE", "DEF", "DEF" }, examWithoutDescription.Teachers.ToArray());
+            CollectionAssert.AreEqual(new string[] { "ABC", "ABC", "CDE", "CDE", "DEF", "DEF" }, examWithoutDescription.Invigilators.ToArray());
             CollectionAssert.AreEqual(new string[] { "A002", "A002", "A002", "A002", "A002", "A002" }, examWithoutDescription.Rooms.ToArray());
-            Assert.IsNull(examWithoutDescription.Description);
+            Assert.IsNull(examWithoutDescription.Remark);
             Assert.AreEqual("A20-LK1", examWithoutDescription.Name);
 
             var examWithDescription = result.Exams[1];
@@ -37,9 +37,9 @@ namespace UntisExport.Test.Exams.Html
             Assert.AreEqual(6, examWithDescription.LessonEnd);
             CollectionAssert.AreEqual(new string[] { "Q2" }, examWithDescription.Grades.ToArray());
             CollectionAssert.AreEqual(new string[] { "E-LK2" }, examWithDescription.Courses.ToArray());
-            CollectionAssert.AreEqual(new string[] { "CDE", "CDE", "ABC", "ABC", "DEF", "DEF" }, examWithDescription.Teachers.ToArray());
+            CollectionAssert.AreEqual(new string[] { "CDE", "CDE", "ABC", "ABC", "DEF", "DEF" }, examWithDescription.Invigilators.ToArray());
             CollectionAssert.AreEqual(new string[] { "A001", "A001", "A001", "A001", "A001", "A001" }, examWithDescription.Rooms.ToArray());
-            Assert.AreEqual("Lorem ipsum dolor.", examWithDescription.Description);
+            Assert.AreEqual("Lorem ipsum dolor.", examWithDescription.Remark);
             Assert.AreEqual("A20-LK1", examWithoutDescription.Name);
 
             var examWithEmptyValuesAndMultipleCourses = result.Exams[2];
@@ -48,9 +48,9 @@ namespace UntisExport.Test.Exams.Html
             Assert.AreEqual(2, examWithEmptyValuesAndMultipleCourses.LessonEnd);
             CollectionAssert.AreEqual(new string[] { "EF" }, examWithEmptyValuesAndMultipleCourses.Grades.ToArray());
             CollectionAssert.AreEqual(new string[] { "EK-GK1", "IF-GK1", "IF-GK2" }, examWithEmptyValuesAndMultipleCourses.Courses.ToArray());
-            CollectionAssert.AreEqual(Array.Empty<string>(), examWithEmptyValuesAndMultipleCourses.Teachers.ToArray());
+            CollectionAssert.AreEqual(Array.Empty<string>(), examWithEmptyValuesAndMultipleCourses.Invigilators.ToArray());
             CollectionAssert.AreEqual(Array.Empty<string>(), examWithEmptyValuesAndMultipleCourses.Rooms.ToArray());
-            Assert.IsNull(examWithEmptyValuesAndMultipleCourses.Description);
+            Assert.IsNull(examWithEmptyValuesAndMultipleCourses.Remark);
             Assert.IsNull(examWithEmptyValuesAndMultipleCourses.Name);
         }
 
