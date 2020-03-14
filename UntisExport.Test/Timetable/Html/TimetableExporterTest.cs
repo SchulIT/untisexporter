@@ -16,7 +16,7 @@ namespace UntisExport.Test.Timetable.Html
 
             var result = await exporter.ParseHtmlAsync(html, new TimetableExportSettings { Type = TimetableType.Subject });
 
-            Assert.AreEqual(6, result.Period);
+            Assert.AreEqual("6. Periode", result.Period);
             Assert.AreEqual("Berei", result.Objective);
 
             var lessons = result.Lessons;
@@ -43,7 +43,7 @@ namespace UntisExport.Test.Timetable.Html
 
             var result = await exporter.ParseHtmlAsync(html, new TimetableExportSettings { Type = TimetableType.Grade });
 
-            Assert.AreEqual(6, result.Period);
+            Assert.AreEqual("6. Periode", result.Period);
             Assert.AreEqual("05A", result.Objective);
 
             var lessons = result.Lessons;

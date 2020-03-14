@@ -51,7 +51,7 @@ namespace SchulIT.UntisExport.Timetable.Html
             });
         }
 
-        private int? GetPeriod(HtmlDocument document)
+        private string GetPeriod(HtmlDocument document)
         {
             var node = document.DocumentNode.SelectSingleNode(PeriodSelector);
 
@@ -60,15 +60,7 @@ namespace SchulIT.UntisExport.Timetable.Html
                 return null;
             }
 
-            var nodeContent = HtmlEntity.DeEntitize(node.InnerText).Trim();
-            var parts = nodeContent.Split('.');
-
-            if (int.TryParse(parts[0], out int period))
-            {
-                return period;
-            }
-
-            return null;
+            return HtmlEntity.DeEntitize(node.InnerText).Trim();
         }
 
         private string GetObjective(HtmlDocument document)

@@ -10,11 +10,11 @@ namespace SchulIT.UntisExport.Timetable
         /// </summary>
         public string Objective { get; private set; }
 
-        public int? Period { get; private set; }
+        public string Period { get; private set; }
 
         public IReadOnlyList<Lesson> Lessons { get; private set; }
 
-        public TimetableExportResult(string objective, int? period, IReadOnlyList<Lesson> lessons)
+        public TimetableExportResult(string objective, string period, IReadOnlyList<Lesson> lessons)
         {
             Objective = objective;
             Period = period;
