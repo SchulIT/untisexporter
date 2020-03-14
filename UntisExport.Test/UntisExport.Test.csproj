@@ -10,6 +10,8 @@
     <None Remove="Exams\Gpu\GPU002.TXT" />
     <None Remove="Exams\Gpu\GPU017-semicolon.TXT" />
     <None Remove="Exams\Gpu\GPU017.TXT" />
+    <None Remove="Rooms\GPU005.TXT" />
+    <None Remove="Rooms\Gpu\GPU005-semicolon.TXT" />
     <None Remove="Substitutions\Gpo\GPU014-empty.TXT" />
     <None Remove="Substitutions\Gpo\GPU014.TXT" />
     <None Remove="Supervisions\Gpu\GPU009-semicolon.TXT" />
@@ -26,6 +28,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Rooms\Gpu\GPU005-semicolon.TXT" />
+    <EmbeddedResource Include="Rooms\Gpu\GPU005.TXT" />
     <EmbeddedResource Include="Timetable\Html\test_05A.htm" />
   </ItemGroup>
 
