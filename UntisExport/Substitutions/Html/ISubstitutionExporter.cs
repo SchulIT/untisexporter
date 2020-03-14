@@ -4,6 +4,6 @@ namespace SchulIT.UntisExport.Substitutions.Html
 {
     public interface ISubstitutionExporter
     {
-        Task<SubstitutionExportResult> ParseHtmlAsync(SubstitutionExportSettings settings, string html);
+        Task<SubstitutionExportResult> ParseHtmlAsync(string html, SubstitutionExportSettings settings);
     }
 }

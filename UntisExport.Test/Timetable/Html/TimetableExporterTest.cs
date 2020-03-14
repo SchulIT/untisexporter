@@ -14,7 +14,7 @@ namespace UntisExport.Test.Timetable.Html
             var html = LoadFile("test_Bereit.htm", "utf-8");
             var exporter = new TimetableExporter();
 
-            var result = await exporter.ParseHtmlAsync(new TimetableExportSettings { Type = TimetableType.Subject }, html);
+            var result = await exporter.ParseHtmlAsync(html, new TimetableExportSettings { Type = TimetableType.Subject });
 
             Assert.AreEqual(6, result.Period);
             Assert.AreEqual("Berei", result.Objective);
@@ -41,7 +41,7 @@ namespace UntisExport.Test.Timetable.Html
             var html = LoadFile("test_05A.htm", "utf-8");
             var exporter = new TimetableExporter();
 
-            var result = await exporter.ParseHtmlAsync(new TimetableExportSettings { Type = TimetableType.Grade }, html);
+            var result = await exporter.ParseHtmlAsync(html, new TimetableExportSettings { Type = TimetableType.Grade });
 
             Assert.AreEqual(6, result.Period);
             Assert.AreEqual("05A", result.Objective);

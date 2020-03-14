@@ -18,7 +18,7 @@ namespace UntisExport.Test.Substitutions.Html
             var settings = new SubstitutionExportSettings();
 
             var html = GetHtmlWithEmptyData();
-            var result = await exporter.ParseHtmlAsync(settings, html);
+            var result = await exporter.ParseHtmlAsync(html, settings);
 
             Assert.AreEqual(DateTime.Parse("2019-06-10"), result.Date);
             Assert.AreEqual(0, result.Infotexts.Count);
@@ -34,7 +34,7 @@ namespace UntisExport.Test.Substitutions.Html
             settings.AbsenceSettings.ParseAbsences = false;
 
             var html = GetNormalHtmlText();
-            var result = await exporter.ParseHtmlAsync(settings, html);
+            var result = await exporter.ParseHtmlAsync(html, settings);
 
             Assert.AreEqual(DateTime.Parse("2019-06-10"), result.Date);
 
@@ -101,7 +101,7 @@ namespace UntisExport.Test.Substitutions.Html
             settings.AbsenceSettings.ParseAbsences = false;
 
             var html = GetNormalHtmlTextWithAbsences();
-            var result = await exporter.ParseHtmlAsync(settings, html);
+            var result = await exporter.ParseHtmlAsync(html, settings);
 
             Assert.AreEqual(DateTime.Parse("2019-06-10"), result.Date);
 
@@ -127,7 +127,7 @@ namespace UntisExport.Test.Substitutions.Html
             settings.AbsenceSettings.ParseAbsences = true;
 
             var html = GetNormalHtmlTextWithAbsences();
-            var result = await exporter.ParseHtmlAsync(settings, html);
+            var result = await exporter.ParseHtmlAsync(html, settings);
 
             Assert.AreEqual(6, result.Absences.Count);
 
@@ -180,7 +180,7 @@ namespace UntisExport.Test.Substitutions.Html
             settings.EmptyValues.Clear();
 
             var html = GetNormalHtmlText();
-            var result = await exporter.ParseHtmlAsync(settings, html);
+            var result = await exporter.ParseHtmlAsync(html, settings);
 
             var substitutionWithMultipleStudyGroups = result.Substitutions.FirstOrDefault(x => x.Id == 6);
             Assert.IsNotNull(substitutionWithMultipleStudyGroups);
@@ -199,7 +199,7 @@ namespace UntisExport.Test.Substitutions.Html
             var settings = new SubstitutionExportSettings();
 
             var html = GetNormalHtmlText();
-            var result = await exporter.ParseHtmlAsync(settings, html);
+            var result = await exporter.ParseHtmlAsync(html, settings);
 
             var substitution = result.Substitutions.FirstOrDefault(x => x.Id == 3);
 
@@ -220,7 +220,7 @@ namespace UntisExport.Test.Substitutions.Html
             var settings = new SubstitutionExportSettings();
 
             var html = GetHtmlWithInvalidDate();
-            var result = await exporter.ParseHtmlAsync(settings, html);
+            var result = await exporter.ParseHtmlAsync(html, settings);
         }
 
         private string GetNormalHtmlText()

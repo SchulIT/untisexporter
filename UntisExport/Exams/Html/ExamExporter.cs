@@ -10,7 +10,7 @@ namespace SchulIT.UntisExport.Exams.Html
     {
         private const string TableSelector = "//table[@rules='all']";
 
-        public Task<ExamExportResult> ParseHtmlAsync(ExamExportSettings settings, string html)
+        public Task<ExamExportResult> ParseHtmlAsync(string html, ExamExportSettings settings)
         {
             return Task.Run(() =>
             {

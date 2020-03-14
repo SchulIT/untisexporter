@@ -46,7 +46,7 @@ namespace UntisExport.Test.Tuitions.Gpu
             Assert.AreEqual("12", first.Grade);
             Assert.AreEqual("CoeJM", first.Teacher);
             Assert.AreEqual("D  G4", first.Subject);
-            //Assert.AreEqual("MSS 2", first.Room);
+            Assert.AreEqual("MSS 2", first.Room);
         }
     }
 }

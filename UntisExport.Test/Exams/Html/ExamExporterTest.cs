@@ -16,7 +16,7 @@ namespace UntisExport.Test.Exams.Html
             var settings = new ExamExportSettings();
 
             var html = GetExamsHtml();
-            var result = await exporter.ParseHtmlAsync(settings, html);
+            var result = await exporter.ParseHtmlAsync(html, settings);
 
             Assert.AreEqual(3, result.Exams.Count);
 

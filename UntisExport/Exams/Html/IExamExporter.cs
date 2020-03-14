@@ -4,6 +4,6 @@ namespace SchulIT.UntisExport.Exams.Html
 {
     public interface IExamExporter
     {
-        Task<ExamExportResult> ParseHtmlAsync(ExamExportSettings settings, string html);
+        Task<ExamExportResult> ParseHtmlAsync(string html, ExamExportSettings settings);
     }
 }

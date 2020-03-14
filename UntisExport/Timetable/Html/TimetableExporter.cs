@@ -32,7 +32,7 @@ namespace SchulIT.UntisExport.Timetable.Html
             { TimetableType.Subject, new List<CellInformationType> {CellInformationType.Weeks, CellInformationType.Teacher } }
         };
 
-        public Task<TimetableExportResult> ParseHtmlAsync(TimetableExportSettings settings, string html)
+        public Task<TimetableExportResult> ParseHtmlAsync(string html, TimetableExportSettings settings)
         {
             return Task.Run(() =>
             {
@@ -165,7 +165,7 @@ namespace SchulIT.UntisExport.Timetable.Html
                 for(int nodeIdx = 0; nodeIdx < lessonTdNodes.Count; nodeIdx++)
                 {
                     var value = HtmlEntity.DeEntitize(lessonTdNodes[nodeIdx].InnerText).Trim();
-                    var targetProperty = CellInformation[settings.Type][nodeIdx];
+                    var targetProperty = CellInformation[settings.Type][settings.UseWeeks ? nodeIdx : nodeIdx+1];
 
                     switch(targetProperty)
                     {

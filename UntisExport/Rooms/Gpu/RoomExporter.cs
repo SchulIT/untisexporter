@@ -7,7 +7,7 @@ namespace SchulIT.UntisExport.Rooms.Gpu
 {
     public class RoomExporter : IRoomExporter
     {
-        public Task<IEnumerable<Room>> ParseGpuAsync(RoomExportSettings settings, string gpu)
+        public Task<IEnumerable<Room>> ParseGpuAsync(string gpu, RoomExportSettings settings)
         {
             return Task.Run(() =>
             {

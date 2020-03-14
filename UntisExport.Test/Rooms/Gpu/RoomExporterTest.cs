@@ -17,7 +17,7 @@ namespace UntisExport.Test.Rooms.Gpu
             var exporter = new RoomExporter();
             var settings = new RoomExportSettings { Delimiter = "," };
 
-            var rooms = await exporter.ParseGpuAsync(settings, csv);
+            var rooms = await exporter.ParseGpuAsync(csv, settings);
             RunTests(rooms);
         }
 
@@ -28,7 +28,7 @@ namespace UntisExport.Test.Rooms.Gpu
             var exporter = new RoomExporter();
             var settings = new RoomExportSettings { Delimiter = ";" };
 
-            var rooms = await exporter.ParseGpuAsync(settings, csv);
+            var rooms = await exporter.ParseGpuAsync(csv, settings);
             RunTests(rooms);
         }
 

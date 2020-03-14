@@ -15,7 +15,7 @@ namespace SchulIT.UntisExport.Substitutions.Html
         private const string SubstitutionsTableSelectorClass = "mon_list";
         private const string SubstitutionEntryClass = "list";
 
-        public Task<SubstitutionExportResult> ParseHtmlAsync(SubstitutionExportSettings settings, string html)
+        public Task<SubstitutionExportResult> ParseHtmlAsync(string html, SubstitutionExportSettings settings)
         {
             return Task.Run(() =>
             {
