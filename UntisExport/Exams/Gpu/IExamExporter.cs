@@ -6,6 +6,6 @@ namespace SchulIT.UntisExport.Exams.Gpu
 {
     public interface IExamExporter
     {
-        Task<IEnumerable<Exam>> ParseGpuAsync(string gpu, ExamExportSettings settings, IEnumerable<Tuition> tuitions = null);
+        Task<ExamExportResult> ParseGpuAsync(string gpu, ExamExportSettings settings, IEnumerable<Tuition> tuitions = null);
     }
 }

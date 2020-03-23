@@ -10,7 +10,7 @@ namespace SchulIT.UntisExport.Exams.Gpu
 {
     public class ExamExporter : IExamExporter
     {
-        public Task<IEnumerable<Exam>> ParseGpuAsync(string gpu, ExamExportSettings settings, IEnumerable<Tuition> tuitions = null)
+        public Task<ExamExportResult> ParseGpuAsync(string gpu, ExamExportSettings settings, IEnumerable<Tuition> tuitions = null)
         {
             return Task.Run(() =>
             {
@@ -41,7 +41,7 @@ namespace SchulIT.UntisExport.Exams.Gpu
                     };
                 });
 
-                return exams;
+                return new ExamExportResult(exams.ToList().AsReadOnly());
             });
         }
 

@@ -5,6 +5,6 @@ namespace SchulIT.UntisExport.Substitutions.Gpu
 {
     public interface ISubstitutionExporter
     {
-        Task<IEnumerable<Substitution>> ParseGpuAsync(string gpu, SubstitutionExportSettings settings);
+        Task<SubstitutionExportResult> ParseGpuAsync(string gpu, SubstitutionExportSettings settings);
     }
 }

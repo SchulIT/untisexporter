@@ -30,8 +30,8 @@ namespace UntisExport.Test.Exams.Gpu
             var settings = new ExamExportSettings();
             var gpu = LoadFile("GPU017.TXT");
 
-            var exams = await exporter.ParseGpuAsync(gpu, settings);
-            RunAssertions(exams, false);
+            var result = await exporter.ParseGpuAsync(gpu, settings);
+            RunAssertions(result.Exams, false);
         }
 
         [TestMethod]
@@ -44,8 +44,8 @@ namespace UntisExport.Test.Exams.Gpu
             };
             var gpu = LoadFile("GPU017-semicolon.TXT");
 
-            var exams = await exporter.ParseGpuAsync(gpu, settings);
-            RunAssertions(exams, false);
+            var result = await exporter.ParseGpuAsync(gpu, settings);
+            RunAssertions(result.Exams, false);
         }
 
         private void RunAssertions(IEnumerable<Exam> exams, bool withTuitions)
@@ -92,9 +92,9 @@ namespace UntisExport.Test.Exams.Gpu
             var settings = new ExamExportSettings();
             var gpu = LoadFile("GPU017.TXT");
 
-            var exams = await exporter.ParseGpuAsync(gpu, settings, await ParseTuitionsAsync());
-            RunAssertions(exams, true);
-            RunAssertionForNotMatchedTuitions(exams);
+            var result = await exporter.ParseGpuAsync(gpu, settings, await ParseTuitionsAsync());
+            RunAssertions(result.Exams, true);
+            RunAssertionForNotMatchedTuitions(result.Exams);
         }
     }
 }

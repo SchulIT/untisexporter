@@ -20,7 +20,6 @@ namespace UntisExport.Test.Substitutions.Html
             var html = GetHtmlWithEmptyData();
             var result = await exporter.ParseHtmlAsync(html, settings);
 
-            Assert.AreEqual(DateTime.Parse("2019-06-10"), result.Date);
             Assert.AreEqual(0, result.Infotexts.Count);
             Assert.AreEqual(0, result.Substitutions.Count);
             
@@ -36,16 +35,14 @@ namespace UntisExport.Test.Substitutions.Html
             var html = GetNormalHtmlText();
             var result = await exporter.ParseHtmlAsync(html, settings);
 
-            Assert.AreEqual(DateTime.Parse("2019-06-10"), result.Date);
-
             Assert.AreEqual(4, result.Infotexts.Count);
-            Assert.AreEqual(result.Date, result.Infotexts[0].Date);
+            Assert.AreEqual(DateTime.Parse("2019-06-10"), result.Infotexts[0].Date);
             Assert.AreEqual("Unterrichtsfrei 1-3 Std.", result.Infotexts[0].Text);
-            Assert.AreEqual(result.Date, result.Infotexts[1].Date);
+            Assert.AreEqual(DateTime.Parse("2019-06-10"), result.Infotexts[1].Date);
             Assert.AreEqual("Infotext 1", result.Infotexts[1].Text);
-            Assert.AreEqual(result.Date, result.Infotexts[2].Date);
+            Assert.AreEqual(DateTime.Parse("2019-06-10"), result.Infotexts[2].Date);
             Assert.AreEqual("Infotext 2", result.Infotexts[2].Text);
-            Assert.AreEqual(result.Date, result.Infotexts[3].Date);
+            Assert.AreEqual(DateTime.Parse("2019-06-10"), result.Infotexts[3].Date);
             Assert.AreEqual("Infotext mit HTML", result.Infotexts[3].Text);
 
             Assert.AreEqual(8, result.Substitutions.Count);
@@ -103,18 +100,16 @@ namespace UntisExport.Test.Substitutions.Html
             var html = GetNormalHtmlTextWithAbsences();
             var result = await exporter.ParseHtmlAsync(html, settings);
 
-            Assert.AreEqual(DateTime.Parse("2019-06-10"), result.Date);
-
             Assert.AreEqual(6, result.Infotexts.Count);
-            Assert.AreEqual(result.Date, result.Infotexts[0].Date);
+            Assert.AreEqual(DateTime.Parse("2019-06-10"), result.Infotexts[0].Date);
             Assert.AreEqual("Unterrichtsfrei 1-3 Std.", result.Infotexts[0].Text);
-            Assert.AreEqual(result.Date, result.Infotexts[1].Date);
+            Assert.AreEqual(DateTime.Parse("2019-06-10"), result.Infotexts[1].Date);
             Assert.AreEqual("Infotext 1", result.Infotexts[1].Text);
-            Assert.AreEqual(result.Date, result.Infotexts[2].Date);
+            Assert.AreEqual(DateTime.Parse("2019-06-10"), result.Infotexts[2].Date);
             Assert.AreEqual("Infotext 2", result.Infotexts[2].Text);
-            Assert.AreEqual(result.Date, result.Infotexts[3].Date);
+            Assert.AreEqual(DateTime.Parse("2019-06-10"), result.Infotexts[3].Date);
             Assert.AreEqual("Infotext mit HTML", result.Infotexts[3].Text);
-            Assert.AreEqual(result.Date, result.Infotexts[4].Date);
+            Assert.AreEqual(DateTime.Parse("2019-06-10"), result.Infotexts[4].Date);
             Assert.AreEqual("Abwesende Lehrer AB (1-1), BC, CD (1-5)", result.Infotexts[4].Text);
             Assert.AreEqual("Abwesende Klassen 05A (3-8), 05B (3-3), 05C", result.Infotexts[5].Text);
         }

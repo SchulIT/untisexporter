@@ -9,7 +9,7 @@ namespace SchulIT.UntisExport.Substitutions.Gpu
 {
     public class SubstitutionExporter : ISubstitutionExporter
     {
-        public Task<IEnumerable<Substitution>> ParseGpuAsync(string gpu, SubstitutionExportSettings settings)
+        public Task<SubstitutionExportResult> ParseGpuAsync(string gpu, SubstitutionExportSettings settings)
         {
             return Task.Run(() =>
             {
@@ -38,7 +38,7 @@ namespace SchulIT.UntisExport.Substitutions.Gpu
                     };
                 });
 
-                return substitutions;
+                return new SubstitutionExportResult(substitutions.ToList().AsReadOnly());
             });
         }
 

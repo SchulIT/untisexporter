@@ -41,7 +41,7 @@ namespace SchulIT.UntisExport.Substitutions.Html
                 // Step 5: Retrieve Substitutions
                 var substitutions = GetSubstitutions(document, date, settings);
 
-                return new SubstitutionExportResult(date, substitutions.AsReadOnly(), infoTexts.AsReadOnly(), absences.AsReadOnly());
+                return new SubstitutionExportResult(substitutions.AsReadOnly(), infoTexts.AsReadOnly(), absences.AsReadOnly());
             });
         }
 

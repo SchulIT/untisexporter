@@ -16,7 +16,8 @@ namespace UntisExport.Test.Substitutions.Gpo
             var settings = new SubstitutionExportSettings();
 
             var gpu = LoadFile("GPU014-empty.TXT", "utf-8");
-            var substitutions = await exporter.ParseGpuAsync(gpu, settings);
+            var result = await exporter.ParseGpuAsync(gpu, settings);
+            var substitutions = result.Substitutions;
 
             Assert.AreEqual(0, substitutions.Count());
         }
@@ -28,7 +29,8 @@ namespace UntisExport.Test.Substitutions.Gpo
             var settings = new SubstitutionExportSettings();
 
             var gpu = LoadFile("GPU014.TXT", "utf-8");
-            var substitutions = await exporter.ParseGpuAsync(gpu, settings);
+            var result = await exporter.ParseGpuAsync(gpu, settings);
+            var substitutions = result.Substitutions;
 
             Assert.AreEqual(3, substitutions.Count());
 
