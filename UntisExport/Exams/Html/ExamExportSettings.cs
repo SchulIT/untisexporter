@@ -10,6 +10,6 @@
         /// <summary>
         /// Specifies the column headers for the data (defaults to the German column names).
         /// </summary>
-        public ExamColumnSettings ColumnSettings { get; } = new ExamColumnSettings();
+        public ExamColumnSettings ColumnSettings { get; set; } = new ExamColumnSettings();
     }
 }
