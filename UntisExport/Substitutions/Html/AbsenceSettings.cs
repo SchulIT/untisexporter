@@ -16,5 +16,10 @@
         /// Prefix for absent study groups
         /// </summary>
         public string StudyGroupIdentifier { get; set; } = "Abwesende Klassen";
+
+        /// <summary>
+        /// Prefix for blocked (absent) rooms
+        /// </summary>
+        public string RoomIdentifier { get; set; } = "Blockierte Räume";
     }
 }

@@ -18,7 +18,7 @@ namespace SchulIT.UntisExport.Substitutions.Html
         /// <summary>
         /// List of values which are concidered empty.
         /// </summary>
-        public List<string> EmptyValues { get; } = new List<string> { "---", "???" };
+        public List<string> EmptyValues { get; set; } = new List<string> { "---", "???" };
 
         /// <summary>
         /// Flag whether to include absent study groups or teachers (which are encoded like "(05A)").

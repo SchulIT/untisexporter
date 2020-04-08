@@ -18,7 +18,8 @@ namespace SchulIT.UntisExport.Substitutions
         public enum ObjectiveType
         {
             StudyGroup,
-            Teacher
+            Teacher,
+            Room
         }
     }
 }

@@ -97,6 +97,10 @@ namespace SchulIT.UntisExport.Substitutions.Html
                 {
                     absences.AddRange(ParseAbsence(infotext.Text.Substring(absenceSettings.StudyGroupIdentifier.Length), Absence.ObjectiveType.StudyGroup, infotext.Date));
                     removeIdx.Add(idx);
+                } else if(infotext.Text.StartsWith(absenceSettings.RoomIdentifier))
+                {
+                    absences.AddRange(ParseAbsence(infotext.Text.Substring(absenceSettings.RoomIdentifier.Length), Absence.ObjectiveType.Room, infotext.Date));
+                    removeIdx.Add(idx);
                 }
             }
 

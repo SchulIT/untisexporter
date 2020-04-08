@@ -100,7 +100,7 @@ namespace UntisExport.Test.Substitutions.Html
             var html = GetNormalHtmlTextWithAbsences();
             var result = await exporter.ParseHtmlAsync(html, settings);
 
-            Assert.AreEqual(6, result.Infotexts.Count);
+            Assert.AreEqual(7, result.Infotexts.Count);
             Assert.AreEqual(DateTime.Parse("2019-06-10"), result.Infotexts[0].Date);
             Assert.AreEqual("Unterrichtsfrei 1-3 Std.", result.Infotexts[0].Text);
             Assert.AreEqual(DateTime.Parse("2019-06-10"), result.Infotexts[1].Date);
@@ -112,10 +112,11 @@ namespace UntisExport.Test.Substitutions.Html
             Assert.AreEqual(DateTime.Parse("2019-06-10"), result.Infotexts[4].Date);
             Assert.AreEqual("Abwesende Lehrer AB (1-1), BC, CD (1-5)", result.Infotexts[4].Text);
             Assert.AreEqual("Abwesende Klassen 05A (3-8), 05B (3-3), 05C", result.Infotexts[5].Text);
+            Assert.AreEqual("Blockierte Räume R 5b, R 6e (2-5)", result.Infotexts[6].Text);
         }
 
         [TestMethod]
-        public async Task TestNormalDataWithAbsentTeachersAndGrades()
+        public async Task TestNormalDataWithAbsentTeachersAndGradesAndRooms()
         {
             var exporter = new SubstitutionExporter();
             var settings = new SubstitutionExportSettings();
@@ -124,7 +125,7 @@ namespace UntisExport.Test.Substitutions.Html
             var html = GetNormalHtmlTextWithAbsences();
             var result = await exporter.ParseHtmlAsync(html, settings);
 
-            Assert.AreEqual(6, result.Absences.Count);
+            Assert.AreEqual(8, result.Absences.Count);
 
             // Teachers
             var absenceAB = result.Absences.FirstOrDefault(x => x.Objective == "AB");
@@ -164,6 +165,19 @@ namespace UntisExport.Test.Substitutions.Html
             Assert.IsNull(absence5C.LessonStart);
             Assert.IsNull(absence5C.LessonEnd);
             Assert.AreEqual(Absence.ObjectiveType.StudyGroup, absence5C.Type);
+
+            // Rooms
+            var roomR5b = result.Absences.FirstOrDefault(x => x.Objective == "R 5b");
+            Assert.IsNotNull(roomR5b);
+            Assert.IsNull(roomR5b.LessonStart);
+            Assert.IsNull(roomR5b.LessonEnd);
+            Assert.AreEqual(Absence.ObjectiveType.Room, roomR5b.Type);
+
+            var roomR6e = result.Absences.FirstOrDefault(x => x.Objective == "R 6e");
+            Assert.IsNotNull(roomR6e);
+            Assert.AreEqual(2, roomR6e.LessonStart);
+            Assert.AreEqual(5, roomR6e.LessonEnd);
+            Assert.AreEqual(Absence.ObjectiveType.Room, roomR6e.Type);
         }
 
         [TestMethod]
