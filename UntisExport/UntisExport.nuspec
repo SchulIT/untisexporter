@@ -13,6 +13,7 @@
     <tags>Untis Vertretungsplan HTML Export</tags>
     <dependencies>    
         <dependency id="HtmlAgilityPack" version="[1.11,2.0)" />
+        <dependency id="FileHelpers" version="[3.4.1, 3.5)" />
     </dependencies>
     
   </metadata>
