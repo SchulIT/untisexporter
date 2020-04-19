@@ -47,6 +47,15 @@ namespace SchulIT.UntisExport.Timetable.Html
                 // Step 2: Parse lessons
                 var lessons = GetLessons(document, settings);
 
+                if(settings.Type == TimetableType.Grade)
+                {
+                    // Set grade
+                    foreach(var lesson in lessons)
+                    {
+                        lesson.Grade = objective;
+                    }
+                }
+
                 return new TimetableExportResult(objective, period, lessons.AsReadOnly());
             });
         }

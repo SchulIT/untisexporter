@@ -15,5 +15,7 @@
         public string Teacher { get; set; }
 
         public string Room { get; set; }
+
+        public string Grade { get; set; }
     }
 }
