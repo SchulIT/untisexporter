@@ -194,9 +194,9 @@ namespace SchulIT.UntisExport.Timetable.Html
             return lessons;
         }
 
-        private bool MustAdvanceDay(int[][] lessonStarts, int lesson, int index, out int advanceValue)
+        private bool MustAdvanceDay(int[][] lessonStarts, int lesson, int day, out int advanceValue)
         {
-            if (index > lessonStarts.Length)
+            if (day > lessonStarts.Length)
             {
                 throw new ArgumentException($"index must be less than {lessonStarts.Length}");
             }
@@ -208,11 +208,15 @@ namespace SchulIT.UntisExport.Timetable.Html
 
             advanceValue = 0;
 
-            for (int currentDay = 0; currentDay < index; currentDay++)
+            for (int currentDay = day; currentDay < lessonStarts.Length; currentDay++)
             {
                 if (lessonStarts[currentDay][lesson] != lesson)
                 {
                     advanceValue++;
+                }
+                else
+                {
+                    break;
                 }
             }
 

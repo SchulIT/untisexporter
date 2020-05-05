@@ -49,7 +49,7 @@ namespace UntisExport.Test.Timetable.Html
             Assert.AreEqual("05A", result.Objective);
 
             var lessons = result.Lessons;
-            Assert.AreEqual(44, lessons.Count);
+            Assert.AreEqual(46, lessons.Count);
 
             var lessonMondayAB34 = lessons.FirstOrDefault(x => x.Day == 1 && x.LessonStart == 3);
             Assert.IsNotNull(lessonMondayAB34);
@@ -86,6 +86,10 @@ namespace UntisExport.Test.Timetable.Html
             Assert.AreEqual(4, lessonTuesdayA34.LessonEnd);
             Assert.AreEqual("05A", lessonTuesdayA34.Grade);
             CollectionAssert.AreEqual(new string[] { "A" }, lessonTuesdayA34.Weeks);
+
+            var lessonFridayA8 = lessons.FirstOrDefault(x => x.Day == 5 && x.LessonStart == 8);
+            Assert.IsNotNull(lessonFridayA8);
+            Assert.AreEqual(8, lessonFridayA8.LessonEnd);
         }
     }
 }
