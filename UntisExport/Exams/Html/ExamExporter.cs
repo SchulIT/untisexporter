@@ -51,7 +51,7 @@ namespace SchulIT.UntisExport.Exams.Html
                     LessonEnd = ParseCell(cells, order.LessonEndColumn, x => ParseIntegerColumn(ClearString(x)), default),
                     Grades = ParseCell(cells, order.GradesColumn, x => ParseMultiValueStringColumn(x, settings.ColumnSettings.GradesSeparator), default),
                     Courses = ParseCell(cells, order.CoursesColumn, x => ParseMultiValueStringColumn(x, settings.ColumnSettings.CoursesSeparator), default),
-                    Invigilators = ParseCell(cells, order.TeachersColumn, x => ParseMultiValueStringColumn(x, settings.ColumnSettings.TeachersSeparator), default),
+                    Supervisions = ParseCell(cells, order.TeachersColumn, x => ParseMultiValueStringColumn(x, settings.ColumnSettings.TeachersSeparator), default),
                     Rooms = ParseCell(cells, order.RoomsColumn, x => ParseMultiValueStringColumn(x, settings.ColumnSettings.RoomsSeparator), default),
                     Remark = ParseCell(cells, order.DescriptionColumn, x => ClearString(x), default)
                 };

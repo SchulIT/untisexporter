@@ -19,7 +19,7 @@ namespace SchulIT.UntisExport.Exams
 
         public ICollection<string> Courses { get; set; }
 
-        public ICollection<string> Invigilators { get; set; }
+        public ICollection<string> Supervisions { get; set; }
 
         public ICollection<string> Rooms { get; set; }
 

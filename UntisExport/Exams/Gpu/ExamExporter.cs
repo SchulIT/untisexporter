@@ -36,7 +36,7 @@ namespace SchulIT.UntisExport.Exams.Gpu
                         Remark = exam.Remark,
                         Date = exam.Date,
                         Courses = exam.Courses,
-                        Invigilators = exam.Invigilators,
+                        Supervisions = exam.Supervisions,
                         Rooms = exam.Rooms
                     };
                 });
@@ -83,7 +83,7 @@ namespace SchulIT.UntisExport.Exams.Gpu
             [FieldQuoted('"', QuoteMode.OptionalForRead)]
             [FieldConverter(typeof(SeparatedValuesConverter), '-', true)]
             [FieldTrim(TrimMode.Both)]
-            public List<string> Invigilators { get; set; }
+            public List<string> Supervisions { get; set; }
 
             [FieldQuoted('"', QuoteMode.OptionalForRead)]
             [FieldConverter(typeof(SeparatedValuesConverter), '-', true)]

@@ -59,7 +59,7 @@ namespace UntisExport.Test.Exams.Gpu
             Assert.AreEqual(3, first.LessonStart);
             Assert.AreEqual(4, first.LessonEnd);
             CollectionAssert.AreEqual(new string[] { "E  L2", "E  L4", "F  L1", "M  L1", "B  L2", "B  L4" }, first.Courses.ToArray());
-            CollectionAssert.AreEqual(new string[] { "BecSa", "BecSa~CurMa" }, first.Invigilators.ToArray());
+            CollectionAssert.AreEqual(new string[] { "BecSa", "BecSa~CurMa" }, first.Supervisions.ToArray());
             CollectionAssert.AreEqual(new string[] { "R 5b", "R 5b" }, first.Rooms.ToArray());
 
             if (withTuitions)
