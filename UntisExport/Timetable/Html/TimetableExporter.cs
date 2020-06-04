@@ -23,13 +23,15 @@ namespace SchulIT.UntisExport.Timetable.Html
             Weeks,
             Subject,
             Teacher,
-            Room
+            Room,
+            Grade
         }
 
         private readonly Dictionary<TimetableType, List<CellInformationType>> CellInformation = new Dictionary<TimetableType, List<CellInformationType>>
         {
             { TimetableType.Grade, new List<CellInformationType>{ CellInformationType.Weeks, CellInformationType.Subject, CellInformationType.Teacher, CellInformationType.Room } },
-            { TimetableType.Subject, new List<CellInformationType> {CellInformationType.Weeks, CellInformationType.Teacher } }
+            { TimetableType.Subject, new List<CellInformationType> {CellInformationType.Weeks, CellInformationType.Grade, CellInformationType.Teacher, CellInformationType.Room } },
+            { TimetableType.SubjectShort, new List<CellInformationType> {CellInformationType.Weeks, CellInformationType.Teacher } },
         };
 
         public Task<TimetableExportResult> ParseHtmlAsync(string html, TimetableExportSettings settings)
@@ -47,12 +49,20 @@ namespace SchulIT.UntisExport.Timetable.Html
                 // Step 2: Parse lessons
                 var lessons = GetLessons(document, settings);
 
-                if(settings.Type == TimetableType.Grade)
+                if (settings.Type == TimetableType.Grade)
                 {
                     // Set grade
-                    foreach(var lesson in lessons)
+                    foreach (var lesson in lessons)
                     {
                         lesson.Grade = objective;
+                    }
+                }
+                else if (settings.Type == TimetableType.Subject)
+                {
+                    // Set subject
+                    foreach (var lesson in lessons)
+                    {
+                        lesson.Subject = objective;
                     }
                 }
 
@@ -151,7 +161,7 @@ namespace SchulIT.UntisExport.Timetable.Html
             {
                 var lessonTdNodes = lessonNode.SelectNodes("./td");
 
-                if(lessonTdNodes == null || lessonTdNodes.Count < 2)
+                if(lessonTdNodes == null || lessonTdNodes.Count <= 2)
                 {
                     continue;
                 }
@@ -163,10 +173,23 @@ namespace SchulIT.UntisExport.Timetable.Html
                     Day = day + 1, // As C# is zero-based, Mondays = 0, shift it to 1, ...
                 };
 
+                var type = settings.Type;
+
+                if(settings.Type == TimetableType.Subject && lessonTdNodes.Count < (settings.UseWeeks ? 4 : 3))
+                {
+                    type = TimetableType.SubjectShort;
+                }
+
+                if(lessonTdNodes.Count > (settings.UseWeeks ? CellInformation[type].Count : CellInformation[type].Count - 1))
+                {
+                    // Untis produced some crap
+                    continue;
+                }
+
                 for(int nodeIdx = 0; nodeIdx < lessonTdNodes.Count; nodeIdx++)
                 {
                     var value = HtmlEntity.DeEntitize(lessonTdNodes[nodeIdx].InnerText).Trim();
-                    var targetProperty = CellInformation[settings.Type][settings.UseWeeks ? nodeIdx : nodeIdx+1];
+                    var targetProperty = CellInformation[type][settings.UseWeeks ? nodeIdx : nodeIdx+1];
 
                     switch(targetProperty)
                     {

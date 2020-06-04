@@ -6,6 +6,7 @@
     public enum TimetableType
     {
         Grade,
-        Subject
+        Subject,
+        SubjectShort
     }
 }
