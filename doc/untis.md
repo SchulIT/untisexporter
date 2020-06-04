@@ -2,15 +2,18 @@
 
 ## Schritt 1: Export-Format laden
 
-Damit Untis in das richtige HTML-Format exportiert, muss zunächst [folgende Formate-Datei](vertretungsplan.gpf) in Untis geladen werden.
+Damit Untis in das richtige HTML-Format exportiert, müssen zunächst die Format-Dateien in Untis geladen werden:
+
+* [Vertretungsplan-Format](vertretungsplan.gpf)
+* [Stundenplan-Format](stundenplan.gpf)
 
 Zunächst im Menü unter "Import/Export" die Kategorie "Untis" auswählen und dort die Schnittstelle "Formate/Fenstergruppen/Ribbon" anklicken.
 
 ![](images/untis-import-1.png)
 
-Es öffnet sich ein Dialog. Dort in den Tab "Eingabeformat Import" wechseln und auf "Durchsuchen" klicken.
+Es öffnet sich ein Dialog. Dort in den Tab "Eingabeformat Import" (Vertretungsplan) oder "Stundenplanformat Import" (Stundenplan) wechseln und auf "Durchsuchen" klicken.
 
-![](images/untis-import-2.png)
+![](images/untis-import-2.png) ![](images/untis-import-2-stundenplan.png)
 
 Es öffnet sich der "Datei öffnen"-Dialog. Dort in den Ordner wechseln, in dem die Formate-Datei liegt und anschließend die Datei auswählen und auf "Öffnen" klicken.
 
@@ -20,11 +23,11 @@ Es öffnet sich der "Datei öffnen"-Dialog. Dort in den Ordner wechseln, in dem 
 
 Abschließend auf "Importieren" klicken. Es öffnet sich nun ein letzter Dialog, welchen man mit "Ok" bestätigen kann.
 
-![](images/untis-import-4.png)
+![](images/untis-import-4.png) ![](images/untis-import-4-stundenplan.png)
 
-**Fertig!** Das Vertretungsplan-Format ist nun hinterlegt.
+**Fertig!** Dieses Prozedere für alle gewünschten Formate durchführen.
 
-## Schritt 2: Export-Format anpassen (Absenzen)
+## Schritt 2: Export-Format anpassen (Absenzen im Vertretungsplan)
 
 Aktuell gibt es nicht allzu viele Möglichkeiten, den Export anzupassen. Aktuell ist es nur möglich, Absenzen zu exportieren oder nicht. Dazu in der Druck-Ansicht auf das "Seite einrichten"-Icon klicken.
 
@@ -34,7 +37,7 @@ Im Dialog hat man dann die Möglichkeit, den Absenzkopf anzupassen. Hier kann ma
 
 ![](images/untis-anpassen-2.png)
 
-## Schritt 3: Untis Info-Stundenplan einrichten
+## Schritt 3: Untis Info-Stundenplan einrichten (Vertretungen)
 
 Im Ribbon klickt man oben auf Info-Stundenplan. Es öffnet sich der folgende Dialog:
 
@@ -57,3 +60,27 @@ Anschließend bestätigt man mit "OK.
 Im Info-Stundenplan-Dialog abschließend noch das Häckchen "aktiv" setzen. Es empfiehlt sich, das Häckchen "Ausgabeverzeichnis löschen" zu setzen - das ist jedoch kein Muss.
 
 Nun kann man mittels "Exportieren" den HTML-Vertretungsplan erzeugen.
+
+## Schritt 4: Untis Info-Stundenplan einrichten (Stundenplan)
+
+Im Ribbon klickt man oben auf Info-Stundenplan. Es öffnet sich der folgende Dialog:
+
+![](images/untis-export-stundenplan-1.png)
+
+Dort wählt man die Einstellung "Standard" (alternativ lässt sich auch eine andere nutzen) und klickt auf den Button "..." neben dem Einstellungsnamen.
+
+Im sich öffnenden Dialog müssen nun die folgenden Dinge angepasst werden:
+
+* Option "Ein Stundenplan pro Periode" aktivieren (nicht zwangsläufig notwendig, aber hilfreich -- wer möchte schon Wochen-Stundenpläne haben?!)
+* Maximale Wochenanzahl auswählen (hat man die Perioden-Option gewählt, sind hiermit die Anzahl der Perioden gemeint)
+* "Wochenverzeichnisse in der Struktur oben" bewirkt, dass man folgende Verzeichnisstruktur erhält:
+    * Option aktiv: `/P1/c/*.htm` und `/P1/f/*.htm`
+    * Option nicht aktiv: `/c/P1/*.htm` und `/f/P1/*.htm`
+
+![](images/untis-export-stundenplan-2.png)
+
+Im Reiter "Stundenplan" muss man noch die Formate einstellen:
+
+![](images/untis-export-stundenplan-3.png)
+
+Anschließend kann man den Stundenplan exportieren und die HTML-Dateien mit der Bibliothek auslesen.
