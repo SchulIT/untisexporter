@@ -161,7 +161,7 @@ namespace SchulIT.UntisExport.Timetable.Html
             {
                 var lessonTdNodes = lessonNode.SelectNodes("./td");
 
-                if(lessonTdNodes == null)
+                if(lessonTdNodes == null || lessonTdNodes.Count < 2)
                 {
                     continue;
                 }
