@@ -2,7 +2,7 @@
 
 [![NuGet version (SchulIT.UntisExport)](https://img.shields.io/nuget/v/SchulIT.UntisExport.svg?style=flat-square)](https://www.nuget.org/packages/SchulIT.UntisExport/)
 [![Build Status](https://dev.azure.com/schulit/UntisExport/_apis/build/status/SchulIT.UntisExport?branchName=master)](https://dev.azure.com/schulit/UntisExport/_build/latest?definitionId=1&branchName=master)
-![.NET Standard 2.0](https://img.shields.io/badge/.NET%20Standard-2.0-brightgreen?style=flat-square)
+![.NET Standard 2.1](https://img.shields.io/badge/.NET%20Standard-2.0-brightgreen?style=flat-square)
 
 Mithilfe dieser Bibliothek können Daten aus Untis eingelesen werden. Möchte man die HTML-Daten nutzen, wird das Info-Stundenplan-Modul benötigt. Die zu verwendeten Vorlagen für die Ausgabe werden bereitgestellt und müssen zuvor importiert werden.
 
