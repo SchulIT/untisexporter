@@ -1,6 +1,7 @@
 ﻿using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -38,10 +39,12 @@ namespace SchulIT.UntisExport.Substitutions.Html
                 // Step 4: Parse absences
                 var absences = GetAbsences(infoTexts, settings.AbsenceSettings);
 
+                var freeLessons = GetFreeLessons(infoTexts, settings.FreeLessonSettings);
+
                 // Step 5: Retrieve Substitutions
                 var substitutions = GetSubstitutions(document, date, settings);
 
-                return new SubstitutionExportResult(substitutions.AsReadOnly(), infoTexts.AsReadOnly(), absences.AsReadOnly());
+                return new SubstitutionExportResult(substitutions.AsReadOnly(), infoTexts.AsReadOnly(), absences.AsReadOnly(), freeLessons.AsReadOnly());
             });
         }
 
@@ -72,6 +75,70 @@ namespace SchulIT.UntisExport.Substitutions.Html
             }
 
             return infoTexts;
+        }
+
+        private List<FreeLessonsTimespan> GetFreeLessons(List<Infotext> infotexts, FreeLessonSettings settings)
+        {
+            if(settings.ParseFreeLessons == false)
+            {
+                return new List<FreeLessonsTimespan>();
+            }
+
+            var freeLessons = new List<FreeLessonsTimespan>();
+            var removeIdx = new List<int>();
+
+            for (int idx = 0; idx < infotexts.Count; idx++)
+            {
+                var infotext = infotexts[idx];
+
+                if(infotext.Text.StartsWith(settings.FreeLessonIdentifier))
+                {
+                    var content = infotext.Text.Substring(settings.FreeLessonIdentifier.Length).Trim();
+
+                    if (content.EndsWith(settings.LessonIdentifier))
+                    {
+                        content = content.Substring(0, content.Length - settings.LessonIdentifier.Length).Trim();
+
+                    }
+
+                    foreach(var part in content.Split(','))
+                    {
+                        try
+                        {
+                            var parts = part.Split('-').Select(x => int.Parse(x)).ToArray();
+                            var timespan = new FreeLessonsTimespan
+                            {
+                                Date = infotext.Date
+                            };
+
+                            if (parts.Length == 1)
+                            {
+                                timespan.Start = timespan.End = parts[0];
+                            }
+                            else if (parts.Length == 2)
+                            {
+                                timespan.Start = parts[0];
+                                timespan.End = parts[1];
+                            }
+
+                            freeLessons.Add(timespan);
+                        }
+                        catch (InvalidCastException e) { }
+                    }
+
+                    removeIdx.Add(idx);
+                }
+            }
+
+            removeIdx.Sort();
+            removeIdx.Reverse();
+
+            foreach (int idx in removeIdx)
+            {
+                infotexts.RemoveAt(idx);
+            }
+
+            return freeLessons;
         }
 
         private List<Absence> GetAbsences(List<Infotext> infotexts, AbsenceSettings absenceSettings)

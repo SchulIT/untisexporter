@@ -27,6 +27,11 @@ namespace SchulIT.UntisExport.Substitutions.Html
         public bool IncludeAbsentValues { get; set; } = false;
 
         /// <summary>
+        /// Specifies the settings for parsing free lessons (if desired).
+        /// </summary>
+        public FreeLessonSettings FreeLessonSettings { get; set; } = new FreeLessonSettings();
+
+        /// <summary>
         /// Specifies the column headers for the data (defaults to the German column names).
         /// </summary>
         public SubstitutionColumnSettings ColumnSettings { get; set; } = new SubstitutionColumnSettings();
