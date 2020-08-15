@@ -130,12 +130,15 @@ namespace SchulIT.UntisExport.Substitutions.Html
                 }
             }
 
-            removeIdx.Sort();
-            removeIdx.Reverse();
-
-            foreach (int idx in removeIdx)
+            if (settings.RemoveInfotext)
             {
-                infotexts.RemoveAt(idx);
+                removeIdx.Sort();
+                removeIdx.Reverse();
+
+                foreach (int idx in removeIdx)
+                {
+                    infotexts.RemoveAt(idx);
+                }
             }
 
             return freeLessons;

@@ -218,6 +218,33 @@ namespace UntisExport.Test.Substitutions.Html
             Assert.AreEqual(3, result.FreeLessons[1].Start);
             Assert.AreEqual(5, result.FreeLessons[1].End);
 
+            Assert.AreEqual(3, result.Infotexts.Count);
+
+            Assert.AreEqual(8, result.Substitutions.Count);
+        }
+
+        [TestMethod]
+        public async Task TestWithFreeLessonsWithoutRemoval()
+        {
+            var exporter = new SubstitutionExporter();
+            var settings = new SubstitutionExportSettings();
+            settings.AbsenceSettings.ParseAbsences = false;
+            settings.FreeLessonSettings.ParseFreeLessons = true;
+            settings.FreeLessonSettings.RemoveInfotext = false;
+
+            var html = GetNormalHtmlText();
+            var result = await exporter.ParseHtmlAsync(html, settings);
+
+            Assert.AreEqual(2, result.FreeLessons.Count);
+            Assert.AreEqual(1, result.FreeLessons[0].Start);
+            Assert.AreEqual(1, result.FreeLessons[0].End);
+            Assert.AreEqual(3, result.FreeLessons[1].Start);
+            Assert.AreEqual(5, result.FreeLessons[1].End);
+
+            Assert.AreEqual(4, result.Infotexts.Count);
+            Assert.AreEqual(DateTime.Parse("2019-06-10"), result.Infotexts[0].Date);
+            Assert.AreEqual("Unterrichtsfrei 1,3-5 Std.", result.Infotexts[0].Text);
+
             Assert.AreEqual(8, result.Substitutions.Count);
         }
 
