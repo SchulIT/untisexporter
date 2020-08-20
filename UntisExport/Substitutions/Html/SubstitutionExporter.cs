@@ -1,6 +1,7 @@
 ﻿using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Dynamic;
 using System.Globalization;
 using System.Linq;
@@ -277,6 +278,14 @@ namespace SchulIT.UntisExport.Substitutions.Html
                 substitution.ReplacementTeachers = ParseCell(cells, order.ReplacementTeachersColumn, x => ParseMultiValueStringColumn(x, settings), default);
                 substitution.Grades = ParseCell(cells, order.GradesColumn, x => ParseMultiValueStringColumn(x, settings), default);
                 substitution.ReplacementGrades = ParseCell(cells, order.ReplacementGradesColumn, x => ParseMultiValueStringColumn(x, settings), default);
+
+                if(settings.TypesWithRemovedReplacementColumns.Contains(substitution.Type))
+                {
+                    substitution.ReplacementSubject = null;
+                    substitution.ReplacementRoom = null;
+                    substitution.ReplacementGrades = new Collection<string>();
+                    substitution.ReplacementTeachers = new Collection<string>();
+                }
 
                 substitutions.Add(substitution);
             }

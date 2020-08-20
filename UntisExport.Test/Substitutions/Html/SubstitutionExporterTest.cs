@@ -45,7 +45,7 @@ namespace UntisExport.Test.Substitutions.Html
             Assert.AreEqual(DateTime.Parse("2019-06-10"), result.Infotexts[3].Date);
             Assert.AreEqual("Infotext mit HTML", result.Infotexts[3].Text);
 
-            Assert.AreEqual(8, result.Substitutions.Count);
+            Assert.AreEqual(9, result.Substitutions.Count);
 
             var supervision = result.Substitutions.FirstOrDefault(x => x.Id == 1);
             Assert.IsNotNull(supervision);
@@ -220,7 +220,7 @@ namespace UntisExport.Test.Substitutions.Html
 
             Assert.AreEqual(3, result.Infotexts.Count);
 
-            Assert.AreEqual(8, result.Substitutions.Count);
+            Assert.AreEqual(9, result.Substitutions.Count);
         }
 
         [TestMethod]
@@ -245,7 +245,26 @@ namespace UntisExport.Test.Substitutions.Html
             Assert.AreEqual(DateTime.Parse("2019-06-10"), result.Infotexts[0].Date);
             Assert.AreEqual("Unterrichtsfrei 1,3-5 Std.", result.Infotexts[0].Text);
 
-            Assert.AreEqual(8, result.Substitutions.Count);
+            Assert.AreEqual(9, result.Substitutions.Count);
+        }
+        
+        [TestMethod]
+        public async Task TestRemoveReplacementColumns()
+        {
+            var exporter = new SubstitutionExporter();
+            var settings = new SubstitutionExportSettings();
+            settings.TypesWithRemovedReplacementColumns.Add("Entfall");
+
+            var html = GetNormalHtmlText();
+            var result = await exporter.ParseHtmlAsync(html, settings);
+
+            Assert.AreEqual(9, result.Substitutions.Count);
+
+            var substitution = result.Substitutions[8];
+            Assert.AreEqual(0, substitution.ReplacementGrades.Count);
+            Assert.AreEqual(0, substitution.ReplacementTeachers.Count);
+            Assert.IsNull(substitution.ReplacementRoom);
+            Assert.IsNull(substitution.ReplacementSubject);
         }
 
         [TestMethod]

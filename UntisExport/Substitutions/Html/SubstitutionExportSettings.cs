@@ -40,5 +40,10 @@ namespace SchulIT.UntisExport.Substitutions.Html
         /// Specifies the settings for parsing absences (if desired).
         /// </summary>
         public AbsenceSettings AbsenceSettings { get; set; } = new AbsenceSettings();
+
+        /// <summary>
+        /// Specifies substitution types which cause all replacement columns to be removed (set to null)
+        /// </summary>
+        public IList<string> TypesWithRemovedReplacementColumns = new List<string>();
     }
 }
