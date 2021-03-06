@@ -4,24 +4,38 @@
 [![Build Status](https://dev.azure.com/schulit/UntisExport/_apis/build/status/SchulIT.UntisExport?branchName=master)](https://dev.azure.com/schulit/UntisExport/_build/latest?definitionId=1&branchName=master)
 ![.NET Standard 2.1](https://img.shields.io/badge/.NET%20Standard-2.1-brightgreen?style=flat-square)
 
-Mithilfe dieser Bibliothek können Daten aus Untis eingelesen werden. Möchte man die HTML-Daten nutzen, wird das Info-Stundenplan-Modul benötigt. Die zu verwendeten Vorlagen für die Ausgabe werden bereitgestellt und müssen zuvor importiert werden.
+Mithilfe dieser Bibliothek kann die Untis GPN-Datei (in Teilen) ausgelesen werden.
 
 ## Features
 
-* Stundenplan
-    * HTML-Import
-* Vertretungsplan
-    * GPU014.txt-Import (ohne Absenzen und Infotexte)
-    * HTML-Import (inkl. Absenzen und Infotexte)
-* Klausurplan
-    * GPU017.txt-Import (in Kombination mit den Unterrichten aus GPU002.txt)
-    * HTML-Import (funktioniert ohne GPU002.txt)
-* Aufsichten
-    * GPU009.txt-Import
-* Unterricht
-    * GPU002.txt-Import
+Folgende Dinge werden aktuell von der Bibliothek ausgelesen:
+
+* Einstellungen zum Schuljahr
+    * Start & Ende des Schuljahres 
+    * Periodizität & Startwoche
+    * Anzahl der Stunden pro Tag
+    * Anzahl der Tage pro Woche
+    * Erste Stunde
+* Ferien & Feiertage
+* Perioden
+* Fächer
+* Lehrkräfte*
+* Unterrichte*
+* Stundenplan*
+* Pausenaufsichten* (inkl. Flure)
+* Veranstaltungen
+* Vertretungen
+* Tagesinformationen
+    * Tagestexte
+    * Unterrichtsfreie Stunden
+* Klausuren
+    * Kurse
+    * Lernende
+    * Aufsichten
+* Absenzen (Klasse, Lehrkräfte, Räume)
 * Räume
-    * GPU005.txt-Import
+
+(*) Diese Funktion ist nur möglich, wenn Perioden genutzt werden.
 
 ## Installation
 
@@ -29,114 +43,29 @@ Die Installation erfolgt via [NuGet](https://www.nuget.org/packages/SchulIT.Unti
 
 ## Nutzung
 
-Zunächst muss die GPU- oder HTML-Datei eingelesen werden. 
-
-**Wichtig:** Da Untis bei HTML nicht UTF-8 sondern ISO-8859-1 verwendet, muss dies berücksichtigt werden! GPU-Dateien werden standardmäßig in UTF-8 exportiert.
-
 ```csharp
-var inputEncoding = Encoding.GetEncoding("iso-8859-1");
+// Imports
+using SchulIT.UntisExport;
+using SchulIT.UntisExport.Model;
 
-using (StreamReader reader = new StreamReader(stream, inputEncoding))
-{
-    var html = reader.ReadToEnd(); // Alternativ kann natürlich auch ReadToEndAsync() verwendet werden
-    var bytes = inputEncoding.GetBytes(html);
-    var utf8bytes = Encoding.Convert(inputEncoding, Encoding.UTF8, bytes);
+// Blockierende Methode:
+var result = UntisExporter.ParseFile(pathToGpnFile);
 
-    return Encoding.UTF8.GetString(utf8bytes);
-}
+// Alternativ auch asynchron:
+var result = await UntisExporter.ParseFileAsync(pathToGpnFile);
 ```
 
-### GPU-Dateien
+Anschließend kann über die `UntisExportResult`-Klasse auf alle Entitäten zugegriffen werden.
 
-Die GPU-Dateien werden jeweils mithilfe der `FileHelper` geparst und anschließend in Objekte umgewandelt.
+## Wichtige Anmerkungen
 
-#### Vertretungen
+* Die Bibliothek wurde gegen eine Untis-Datei mit einer Mutterperiode und vielen Unterperioden getestet.
+* Es werden nicht alle Informationen ausgelesen. Aktuell beschränkt sich die Bibliothek auf die wichtigsten Informationen. Bei Bedarf kann sie gerne erweitert werden.
+* Die Auflösung der Vertretungsart leider nicht immer der Vertretungsart, die in Untis angezeigt wird. Diese wird nicht direkt in der GPN-Datei abgespeichert sondern von Untis berechnet. Eine eigene Implementierung findest sich in der Klasse `SubstitutionTypeResolver`.
 
-```csharp
-var exporter = new SubstitutionExporter();
-var settings = new SubstitutionExportSettings();
+## Credits
 
-var substitutions = await exporter.ParseGpuAsync(csv, settings);
-```
-
-#### Unterrichte
-
-```csharp
-var exporter = new TuitionExporter();
-var settings = new TuitionExportSettings();
-
-var tuitions = await exporter.ParseGpuAsync(csv, settings);
-```
-
-#### Exams
-
-Um die Klasse aufzulösen, muss zuvor der Unterricht eingelesen werden und dem Exporter übergeben werden.
-
-```csharp
-var exporter = new ExamExporter();
-var settings = new ExamExportSettings();
-
-var exams = await exporter.ParseGpuAsync(csv, settings, tuitions);
-```
-
-### Räume
-
-```csharp
-var exporter = new RoomExporter();
-var settings = new RoomExportSettings();
-
-var rooms = await exporter.ParseGpuAsync(csv, settings);
-```
-
-### Aufsichten
-
-Da in Untis Aufsichten pro Woche angegeben werden können, erhält man bei Aufsichten die Wochen, in denen die Aufsicht laut Untis stattfinden soll. Wenn keine Wochen angegeben sind, ist jede Woche gemeint.
-
-```csharp
-var exporter = new SupervisionExporter();
-var settings = new SupervisionExportSettings();
-
-var exams = await exporter.ParseGpuAsync(csv, settings);
-```
-
-### HTML-Dateien
-
-Die HTML-Dateien werden jeweils mithilfe des `HtmlAgilityPack` geparst und anschließend in Objekte umgewandelt.
-
-#### Vertretungen, Infotexte und Absenzen
-
-```csharp
-var exporter = new SubstitutionExporter();
-var settings = new SubstitutionExportSettings();
-
-var result = await exporter.ParseHtmlAsync(html, settings);
-```
-
-#### Klausurplan
-
-```csharp
-var exporter = new ExamExporter();
-var settings = new ExamExportSettings();
-
-var result = await exporter.ParseHtmlAsync(html, settings);
-```
-
-#### Stundenplan
-
-```csharp
-var exporter = new TimetableExporter();
-var settings = new TimetableExportSettings();
-
-var result = await exporter.ParseHtmlAsync(html, settings);
-```
-
-### Anpassungen
-
-Beim Einlesen lassen sich verschiedene Parameter spezifieren. Diese sind im Quellcode beschrieben und erklärt.
-
-### Einrichtung von Untis
-
-Die Einrichtung von Untis ist [hier](doc/untis.md) beschrieben.
+Diese Bibliothek nutzt den Parser-Bibliothek [Sprache](https://github.com/sprache/sprache).
 
 ## Lizenz
 

@@ -7,30 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Exams\Gpu\GPU002.TXT" />
-    <None Remove="Exams\Gpu\GPU017-semicolon.TXT" />
-    <None Remove="Exams\Gpu\GPU017.TXT" />
-    <None Remove="Rooms\GPU005.TXT" />
-    <None Remove="Rooms\Gpu\GPU005-semicolon.TXT" />
-    <None Remove="Substitutions\Gpo\GPU014-empty.TXT" />
-    <None Remove="Substitutions\Gpo\GPU014.TXT" />
-    <None Remove="Supervisions\Gpu\GPU009-semicolon.TXT" />
-    <None Remove="Supervisions\Gpu\GPU009.TXT" />
     <None Remove="test.htm" />
     <None Remove="test_absence.htm" />
     <None Remove="test_empty.htm" />
     <None Remove="test_invaliddate.htm" />
     <None Remove="text_exams.htm" />
-    <None Remove="Timetable\Html\test_05A.htm" />
-    <None Remove="Timetable\Html\test_Bereit.htm" />
-    <None Remove="Tuitions\Gpu\GPU002-semicolon.TXT" />
-    <None Remove="Tuitions\Gpu\GPU002.TXT" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Rooms\Gpu\GPU005-semicolon.TXT" />
-    <EmbeddedResource Include="Rooms\Gpu\GPU005.TXT" />
-    <EmbeddedResource Include="Timetable\Html\test_05A.htm" />
   </ItemGroup>
 
   <ItemGroup>
@@ -47,24 +28,6 @@
     <Reference Include="System">
       <HintPath>System</HintPath>
     </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Exams\Gpu\GPU002.TXT" />
-    <EmbeddedResource Include="Exams\Gpu\GPU017-semicolon.TXT" />
-    <EmbeddedResource Include="Exams\Gpu\GPU017.TXT" />
-    <EmbeddedResource Include="Substitutions\Gpo\GPU014-empty.TXT" />
-    <EmbeddedResource Include="Substitutions\Gpo\GPU014.TXT" />
-    <EmbeddedResource Include="Substitutions\Html\test_absence.htm" />
-    <EmbeddedResource Include="Substitutions\Html\test.htm" />
-    <EmbeddedResource Include="Substitutions\Html\test_invaliddate.htm" />
-    <EmbeddedResource Include="Substitutions\Html\test_empty.htm" />
-    <EmbeddedResource Include="Exams\Html\test_exams.htm" />
-    <EmbeddedResource Include="Supervisions\Gpu\GPU009-semicolon.TXT" />
-    <EmbeddedResource Include="Supervisions\Gpu\GPU009.TXT" />
-    <EmbeddedResource Include="Timetable\Html\test_Bereit.htm" />
-    <EmbeddedResource Include="Tuitions\Gpu\GPU002-semicolon.TXT" />
-    <EmbeddedResource Include="Tuitions\Gpu\GPU002.TXT" />
   </ItemGroup>
 
 </Project>
