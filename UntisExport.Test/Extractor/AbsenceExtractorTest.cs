@@ -44,11 +44,12 @@ namespace UntisExport.Test.Extractor
         }
 
         [TestMethod]
-        public void TestParseNonAbsenceLine()
+        public void TestParseInternalAbsenceLine()
         {
             var input = "0A ,42,L,\"TEST\",20200212,20200213,\"P\",\"Test\",1,8,1,0,0,,11365468,0,0,0,,0";
+            var output = AbsenceExtractor.Absence.Parse(input);
 
-            Assert.ThrowsException<ParseException>(() => AbsenceExtractor.Absence.Parse(input));
+            Assert.IsTrue(output.IsInternal);
         }
     }
 }

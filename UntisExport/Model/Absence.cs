@@ -6,6 +6,8 @@ namespace SchulIT.UntisExport.Model
     {
         public int Number { get; set; }
 
+        public bool IsInternal { get; set; } = false;
+
         public AbsenceType Type { get; set; }
 
         public string Objective { get; set; }

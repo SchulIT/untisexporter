@@ -77,6 +77,13 @@ namespace SchulIT.UntisExport.Extractor
             from rooms in CsvParser.Record
             select rooms;
 
+        public static readonly Parser<IEnumerable<int>> Absence =
+            from identifier in Parse.String("Va")
+            from any in Parse.CharExcept(',').Many()
+            from twoComma in Parse.String(",,")
+            from absences in CsvParser.Record
+            select absences.Select(x => int.Parse(x));
+
         public static readonly Parser<char> NonStartSequence =
             from identifier in Parse.Char('0')
             from character in Parse.CharExcept('V')
@@ -100,11 +107,17 @@ namespace SchulIT.UntisExport.Extractor
 
                         if (timetableEntry != null && !string.IsNullOrEmpty(timetableEntry.Room))
                         {
-                            dto.Rooms = new List<string> { timetableEntry.Room };
+                            //dto.Grades.Clear();
+                            //dto.Grades.AddRange(tuitionPeriod.Grades);
+                            dto.Rooms.Clear();
+                            dto.Rooms.Add(timetableEntry.Room);
                         }
                         else
                         {
-                            dto.Rooms = new List<string> { string.IsNullOrEmpty(tuitionPeriod.LabRoom) ? tuitionPeriod.RegularRoom : tuitionPeriod.LabRoom };
+                            //dto.Grades.Clear();
+                            //dto.Grades.AddRange(tuitionPeriod.Grades);
+                            dto.Rooms.Clear();
+                            dto.Rooms.Add(string.IsNullOrEmpty(tuitionPeriod.LabRoom) ? tuitionPeriod.RegularRoom : tuitionPeriod.LabRoom);
                         }
                         dto.Subject = tuitionPeriod.Subject;
                     }
@@ -117,12 +130,15 @@ namespace SchulIT.UntisExport.Extractor
             if(dto.Type == SubstitutionType.Pausenaufsicht)
             {
                 dto.IsBefore = true;
+                dto.Rooms.AddRange(dto.ReplacementRooms);
+                dto.ReplacementRooms.Clear();
             }
 
-            if(dto.Type == SubstitutionType.Entfall)
+            if(dto.Type == SubstitutionType.Entfall || dto.Type == SubstitutionType.Freisetzung)
             {
-                dto.Rooms = dto.ReplacementRooms;
-                dto.ReplacementRooms = null;
+                dto.ReplacementRooms.Clear();
+                dto.ReplacementSubject = null;
+                dto.ReplacementTeacher = null;
             }
 
             return new Substitution[] { dto };
@@ -161,12 +177,20 @@ namespace SchulIT.UntisExport.Extractor
             {
                 if (dto.ReplacementRooms.Any())
                 {
-                    dto.ReplacementRooms = roomLine.Value.ToList();
+                    dto.ReplacementRooms.Clear();
+                    dto.ReplacementRooms.AddRange(roomLine.Value.ToList());
                 }
                 /*else if (dto.ReplacementRoom != roomLine.Value)
                 {
                     dto.ReplacementRoom = $"ERR: {dto.ReplacementRoom} OR {roomLine.Value}"; 
                 }*/
+                return;
+            }
+
+            var absenceLine = Absence.TryParse(line);
+            if(absenceLine.WasSuccessful)
+            {
+                dto.AbsenceNumbers.AddRange(absenceLine.Value);
                 return;
             }
         }
@@ -183,7 +207,7 @@ namespace SchulIT.UntisExport.Extractor
 
         private static int? GetTuitionNumber(IOption<string> tuitionNumber)
         {
-            if(!tuitionNumber.IsDefined)
+            if(!tuitionNumber.IsDefined || tuitionNumber.Get() == "0")
             {
                 return null;
             }

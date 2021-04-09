@@ -8,6 +8,7 @@ namespace SchulIT.UntisExport.Utilities
     public class SubstitutionTypeResolver
     {
         private readonly IEnumerable<string> floors;
+        private readonly IEnumerable<Absence> absences;
 
         public static readonly Parser<SubstitutionType> Betreuung =
             from any in Parse.CharExcept('B').Many()
@@ -41,20 +42,20 @@ namespace SchulIT.UntisExport.Utilities
 
         public static readonly IEnumerable<Parser<SubstitutionType>> Rules = new List<Parser<SubstitutionType>>()
         {
-            Raumvertretung,
             Betreuung,
             Entfall,
             Freisetzung
         };
 
-        public SubstitutionTypeResolver(IEnumerable<string> floors)
+        public SubstitutionTypeResolver(IEnumerable<string> floors, IEnumerable<Absence> absences)
         {
             this.floors = floors;
+            this.absences = absences;
         }
 
         public SubstitutionType ResolveType(Substitution substitution)
         {
-            // Step 1: Test rules above
+            // Test rules above
             foreach(var rule in Rules)
             {
                 var parsed = rule.TryParse(substitution.RawType);
@@ -64,11 +65,39 @@ namespace SchulIT.UntisExport.Utilities
                 }
             }
 
-            if(ContainsAll(floors, substitution.Rooms) || ContainsAll(floors, substitution.ReplacementRooms))
+            // Sondereinsatz?
+            if(substitution.TuitionNumber == null)
+            {
+                return SubstitutionType.Sondereinsatz;
+            }
+
+            // Entfall oder Freisetzung?
+            if (substitution.AbsenceNumbers.Count > 0)
+            {
+                var absenceNumber = substitution.AbsenceNumbers.First();
+                var absence = absences.FirstOrDefault(x => x.Number == absenceNumber);
+
+                if (absence != null)
+                {
+                    if (absence.Type == AbsenceType.Grade)
+                    {
+                        return SubstitutionType.Freisetzung;
+                    }
+                    else if (absence.Type == AbsenceType.Teacher)
+                    {
+                        return SubstitutionType.Entfall;
+                    }
+                }
+            }
+
+            // Pausenaufsicht?
+            if((substitution.Rooms.Count > 0 && ContainsAll(floors, substitution.Rooms)) 
+                || (substitution.ReplacementRooms.Count > 0 && ContainsAll(floors, substitution.ReplacementRooms)))
             {
                 return SubstitutionType.Pausenaufsicht;
             }
 
+            // Vertretung ohne Lehrkraft
             if (string.IsNullOrEmpty(substitution.ReplacementTeacher))
             {
                 return SubstitutionType.VertretungOhneLehrer;

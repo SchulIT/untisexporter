@@ -58,7 +58,8 @@ namespace UntisExport.Test.Extractor
             var input = "Kg{D0045896-679F-4C2C-A789-D7503085C5D3}~0";
             var output = DayInformationExtractor.Guid.Parse(input);
 
-            Assert.AreEqual("D0045896-679F-4C2C-A789-D7503085C5D3", output);
+            Assert.AreEqual("D0045896-679F-4C2C-A789-D7503085C5D3", output.Guid);
+            Assert.AreEqual(0, output.Days);
         }
 
         [TestMethod]

@@ -23,9 +23,9 @@ namespace SchulIT.UntisExport.Model
 
         public string ReplacementTeacher { get; set; }
 
-        public List<string> Rooms { get; set; } = new List<string>();
+        public List<string> Rooms { get; } = new List<string>();
 
-        public List<string> ReplacementRooms { get; set; } = new List<string>();
+        public List<string> ReplacementRooms { get; internal set; } = new List<string>();
 
         public List<string> Grades { get; } = new List<string>();
 
@@ -34,5 +34,7 @@ namespace SchulIT.UntisExport.Model
         public string RawType { get; set; }
 
         public string Text { get; set; }
+
+        public List<int> AbsenceNumbers { get; } = new List<int>();
     }
 }

@@ -13,6 +13,8 @@ namespace SchulIT.UntisExport.Model
 
         public int TuitionNumber { get; set; }
 
+        public int TuitionIndex { get; set; }
+
         public string Subject { get; set; }
 
         public string Teacher { get; set; }

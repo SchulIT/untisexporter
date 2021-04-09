@@ -49,13 +49,19 @@ namespace SchulIT.UntisExport.Extractor
             from text in Parse.AnyChar.Many().Text()
             select text.Substring(0, text.Length - 1);  // Dirty hack - last " is also parsed and " inside the text are not escaped by Untis 🥴
 
-        public static readonly Parser<string> Guid =
+        public static readonly Parser<GuidAndDays> Guid =
             from identifier in Parse.String("Kg")
             from startBracket in Parse.Char('{')
             from guid in Parse.CharExcept('}').Many()
             from endBracket in Parse.Char('}')
+            from tilde in Parse.Char('~')
+            from numberOfDays in Parse.Number
             from any in Parse.AnyChar.Many()
-            select new string(guid.ToArray());
+            select new GuidAndDays
+            {
+                Guid = new string(guid.ToArray()),
+                Days = int.Parse(numberOfDays)
+            };
 
         public static readonly Parser<IEnumerable<string>> Grades =
             from identifier in Parse.String("KnK")
@@ -109,7 +115,7 @@ namespace SchulIT.UntisExport.Extractor
             {
                 var dayText = new DayText
                 {
-                    Date = dto.Date,
+                    StartDate = dto.Date,
                     Text = new string(textLine.Value.ToArray())
                 };
                 dto.Texts.Add(dayText);
@@ -119,7 +125,14 @@ namespace SchulIT.UntisExport.Extractor
             var guidLine = Guid.TryParse(line);
             if(guidLine.WasSuccessful)
             {
-                ApplyToLastDayText(dto, dayText => dayText.Guid = guidLine.Value);
+                ApplyToLastDayText(dto, dayText =>
+                {
+                    dayText.Guid = guidLine.Value.Guid;
+                    if (dayText.StartDate != null)
+                    {
+                        dayText.EndDate = new DateTime(dayText.StartDate.Ticks).AddDays(guidLine.Value.Days);
+                    }
+                });
                 return;
             }
 
@@ -186,6 +199,13 @@ namespace SchulIT.UntisExport.Extractor
             }
 
             return DayType.Normal;
+        }
+
+        public struct GuidAndDays
+        {
+            public string Guid { get; set; }
+
+            public int Days { get; set; }
         }
     }
 }

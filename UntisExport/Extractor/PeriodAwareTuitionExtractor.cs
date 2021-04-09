@@ -147,6 +147,7 @@ namespace SchulIT.UntisExport.Extractor
                     var tuitionPeriod = new TuitionPeriod
                     {
                         TuitionNumber = period.Value.TuitionNumber,
+                        TuitionIndex = (idx + 1),
                         PeriodNumber = period.Value.PeriodNumber,
                         StartDate = period.Value.StartDate,
                         EndDate = period.Value.EndDate
@@ -186,7 +187,7 @@ namespace SchulIT.UntisExport.Extractor
                             Day = timetableData.Day,
                             Lesson = timetableData.Lesson,
                             Week = timetableData.Week,
-                            Room = timetableData.Rooms.ElementAtOrDefault(idx)
+                            Room = timetableData.Rooms.ElementAtOrDefault(matrix.RoomIndex - 1)
                         };
 
                         tuitionPeriod.Timetable.Add(timetable);

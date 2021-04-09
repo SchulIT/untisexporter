@@ -21,7 +21,7 @@ namespace SchulIT.UntisExport.Extractor
             from comma5 in Parse.Char(',')
             from endDate in Parsers.DateTime
             from comma6 in Parse.Char(',')
-            from reason in Parsers.QuotedText
+            from reason in CsvParser.Cell.Optional()
             from comma7 in Parse.Char(',')
             from text in CsvParser.Cell.Optional()
             from comma9 in Parse.Char(',')
@@ -29,18 +29,19 @@ namespace SchulIT.UntisExport.Extractor
             from comma10 in Parse.Char(',')
             from lessonEnd in Parse.Number
             from comma11 in Parse.Char(',')
-            from importantPart in Parse.String("0,0,0,")
+            from importantPart in Parse.String("0,0,0,").Optional()
             from rest in Parse.AnyChar.Many()
             select new Absence
             {
                 Number = int.Parse(number),
+                IsInternal = !importantPart.IsDefined,
                 Type = GetType(type),
                 Objective = objective,
                 Start = startDate,
                 End = endDate,
                 LessonStart = int.Parse(lessonStart),
                 LessonEnd = int.Parse(lessonEnd),
-                Reason = reason,
+                Reason = GetStringOrNull(reason),
                 Text = GetStringOrNull(text)
             };
 
