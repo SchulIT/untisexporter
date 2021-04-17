@@ -20,6 +20,8 @@ namespace SchulIT.UntisExport.Extractor
             from comma3 in Parse.Char(',')
             from date in Parsers.DateTime
             from comma4 in Parse.Char(',')
+            from text in CsvParser.QuotedCell.Optional()
+            from comma5 in Parse.Char(',')
             from any in Parse.AnyChar.Many()
             select new Exam
             {
@@ -27,6 +29,7 @@ namespace SchulIT.UntisExport.Extractor
                 Name = name,
                 LessonStart = int.Parse(lessonStart),
                 LessonEnd = int.Parse(lessonEnd),
+                Text = GetStringOrNull(text),
                 Date = date
             };
 
@@ -130,6 +133,16 @@ namespace SchulIT.UntisExport.Extractor
                 dto.Rooms = roomLine.Value.ToArray();
                 return;
             }
+        }
+
+        private static string GetStringOrNull(IOption<string> option)
+        {
+            if (option.IsDefined)
+            {
+                return option.Get();
+            }
+
+            return null;
         }
     }
 }
