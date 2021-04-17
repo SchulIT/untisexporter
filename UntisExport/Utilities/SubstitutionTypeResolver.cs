@@ -55,6 +55,11 @@ namespace SchulIT.UntisExport.Utilities
 
         public SubstitutionType ResolveType(Substitution substitution)
         {
+            if(substitution.RawType == null)
+            {
+                throw new System.Exception("RawType must not be null");
+            }
+
             // Test rules above
             foreach(var rule in Rules)
             {
@@ -78,21 +83,31 @@ namespace SchulIT.UntisExport.Utilities
                 var absence = absences.FirstOrDefault(x => x.Number == absenceNumber);
 
                 if (absence != null)
-                {
+                { 
                     if (absence.Type == AbsenceType.Grade)
                     {
                         return SubstitutionType.Freisetzung;
                     }
                     else if (absence.Type == AbsenceType.Teacher)
                     {
+                        if (!string.IsNullOrEmpty(substitution.ReplacementTeacher) && substitution.ReplacementTeacher != substitution.Teacher)
+                        {
+                            if(Sondereinsatz.TryParse(substitution.RawType).WasSuccessful)
+                            {
+                                return SubstitutionType.Sondereinsatz;
+                            }
+
+                            return SubstitutionType.Vertretung;
+                        }
+
                         return SubstitutionType.Entfall;
                     }
                 }
             }
 
             // Pausenaufsicht?
-            if((substitution.Rooms.Count > 0 && ContainsAll(floors, substitution.Rooms)) 
-                || (substitution.ReplacementRooms.Count > 0 && ContainsAll(floors, substitution.ReplacementRooms)))
+            if(substitution.TuitionNumber == null && ((substitution.Rooms.Count > 0 && ContainsAll(floors, substitution.Rooms)) 
+                || (substitution.ReplacementRooms.Count > 0 && ContainsAll(floors, substitution.ReplacementRooms))))
             {
                 return SubstitutionType.Pausenaufsicht;
             }
@@ -100,6 +115,11 @@ namespace SchulIT.UntisExport.Utilities
             // Vertretung ohne Lehrkraft
             if (string.IsNullOrEmpty(substitution.ReplacementTeacher))
             {
+                if(Sondereinsatz.TryParse(substitution.RawType).WasSuccessful)
+                {
+                    return SubstitutionType.Sondereinsatz;
+                }
+
                 return SubstitutionType.VertretungOhneLehrer;
             }
 
