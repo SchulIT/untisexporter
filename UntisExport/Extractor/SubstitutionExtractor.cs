@@ -35,7 +35,7 @@ namespace SchulIT.UntisExport.Extractor
             from comma6 in Parse.Char(',')
             from subject in CsvParser.QuotedCell.Optional()
             from comma7 in Parse.Char(',')
-            from room in CsvParser.QuotedCell
+            from room in CsvParser.QuotedCell.Optional()
             from comma8 in Parse.Char(',')
             from tuitionNumber in Parse.Number.Optional()
             from comma9 in Parse.Char(',')
@@ -57,7 +57,7 @@ namespace SchulIT.UntisExport.Extractor
                 TuitionNumber = GetTuitionNumber(tuitionNumber),
                 Teacher = GetStringOrNull(oldTeacher),
                 ReplacementTeacher = GetStringOrNull(replacementTeacher),
-                ReplacementRooms = new List<string>() { room },
+                ReplacementRooms = GetStringListOrEmptyList(room),
                 ReplacementSubject = GetStringOrNull(subject),
                 Text = GetStringOrNull(text),
                 RawType = GetStringOrNull(type)
@@ -91,8 +91,10 @@ namespace SchulIT.UntisExport.Extractor
 
         protected override IEnumerable<Substitution> BuildItems(Substitution dto)
         {
+            System.Diagnostics.Debug.WriteLine($"> Substitution {dto.Number}");
+
             // resolve old room + subject
-            if(dto.TuitionNumber != null)
+            if (dto.TuitionNumber != null)
             {
                 var period = periods.Reverse().FirstOrDefault(x => x.Start <= dto.Date);
                 if (period != null)
@@ -203,6 +205,16 @@ namespace SchulIT.UntisExport.Extractor
             }
 
             return null;
+        }
+        
+        private static List<string> GetStringListOrEmptyList(IOption<string> option)
+        {
+            if(option.IsDefined)
+            {
+                return new List<string> { option.Get() };
+            }
+
+            return new List<string>();
         }
 
         private static int? GetTuitionNumber(IOption<string> tuitionNumber)
