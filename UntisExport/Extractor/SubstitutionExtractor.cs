@@ -91,8 +91,6 @@ namespace SchulIT.UntisExport.Extractor
 
         protected override IEnumerable<Substitution> BuildItems(Substitution dto)
         {
-            System.Diagnostics.Debug.WriteLine($"> Substitution {dto.Number}");
-
             // resolve old room + subject
             if (dto.TuitionNumber != null)
             {
