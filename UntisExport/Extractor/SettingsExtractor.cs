@@ -29,6 +29,7 @@ namespace SchulIT.UntisExport.Extractor
                 Periodicity = periodicity,
                 NumberOfDays = numberOfDaysPerWeek,
                 NumberOfLessonsPerDay = numberOfLessonsPerDay,
+                NumberOfFirstLesson = int.Parse(firstLesson.ToString()),
                 StartWeek = startWeek,
                 FirstSchoolDayOfWeek = (DayOfWeek)(int.Parse(firstDayInWeek.ToString()) % 7)
             };
