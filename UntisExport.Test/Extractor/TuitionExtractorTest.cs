@@ -114,5 +114,17 @@ namespace UntisExport.Test.Extractor
             Assert.AreEqual("A", output.Week);
             Assert.AreEqual(10, output.Rooms.Count);
         }
+
+        [TestMethod]
+        public void TestTimetableWithoutWeeks()
+        {
+            var input = "UZ00 ,1/5";
+            var output = PeriodAwareTuitionExtractor.Timetable.Parse(input);
+
+            Assert.AreEqual(1, output.Day);
+            Assert.AreEqual(5, output.Lesson);
+            Assert.IsNull(output.Week);
+            Assert.AreEqual(0, output.Rooms.Count);
+        }
     }
 }

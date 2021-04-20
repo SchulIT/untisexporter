@@ -118,14 +118,13 @@ namespace SchulIT.UntisExport.Extractor
             from day in Parse.Number
             from slash in Parse.Char('/')
             from lesson in Parse.Number
-            from comma2 in Parse.Char(',')
             from record in CsvParser.Record
             select new ParsedTimetableData
             {
                 Day = int.Parse(day),
                 Lesson = int.Parse(lesson),
-                Week = record.ElementAt(0)?.Split("~~").FirstOrDefault(),
-                Rooms = record.Skip(1).ToList()
+                Week = record.ElementAtOrDefault(1)?.Split("~~").FirstOrDefault(),
+                Rooms = record.Skip(2).ToList()
             };
 
         /// <summary>
