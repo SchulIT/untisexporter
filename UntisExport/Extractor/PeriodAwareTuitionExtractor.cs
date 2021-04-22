@@ -29,7 +29,7 @@ namespace SchulIT.UntisExport.Extractor
             from comma2 in Parse.Char(',')
             from any2 in Parse.CharExcept(',').Many().Optional()
             from comma3 in Parse.Char(',')
-            from any3 in Parse.CharExcept(',').Many().Optional()
+            from tuitionGroup in CsvParser.QuotedCell.Optional()
             from comma4 in Parse.Char(',')
             from any4 in Parse.CharExcept(',').Many().Optional()
             from comma5 in Parse.Char(',')
@@ -49,7 +49,8 @@ namespace SchulIT.UntisExport.Extractor
             {
                 Number = int.Parse(number),
                 StartDate = GetDateTimeOrNull(start),
-                EndDate = GetDateTimeOrNull(end)
+                EndDate = GetDateTimeOrNull(end),
+                TuitionGroups = GetTuitionGroups(tuitionGroup)
             };
 
         public static Parser<string> QuotedCellWithTwoCommaSep =
@@ -149,7 +150,8 @@ namespace SchulIT.UntisExport.Extractor
                         TuitionIndex = (idx + 1),
                         PeriodNumber = period.Value.PeriodNumber,
                         StartDate = period.Value.StartDate,
-                        EndDate = period.Value.EndDate
+                        EndDate = period.Value.EndDate,
+                        TuitionGroups = period.Value.TuitionGroups
                     };
 
                     // Get data straight 🥴
@@ -214,6 +216,7 @@ namespace SchulIT.UntisExport.Extractor
                     period.TuitionNumber = tuitionInfo.Value.Number;
                     period.StartDate = tuitionInfo.Value.StartDate;
                     period.EndDate = tuitionInfo.Value.EndDate;
+                    period.TuitionGroups = tuitionInfo.Value.TuitionGroups;
                 });
                 return;
             }
@@ -295,6 +298,8 @@ namespace SchulIT.UntisExport.Extractor
 
             public int TuitionNumber { get; set; }
 
+            public string[] TuitionGroups { get; set; }
+
             public DateTime? StartDate { get; set; }
 
             public DateTime? EndDate { get; set; }
@@ -346,6 +351,8 @@ namespace SchulIT.UntisExport.Extractor
         {
             public int Number { get; set; }
 
+            public string[] TuitionGroups { get; set; }
+
             public DateTime? StartDate { get; set; }
 
             public DateTime? EndDate { get; set; }
@@ -359,6 +366,16 @@ namespace SchulIT.UntisExport.Extractor
             }
 
             return null;
+        }
+
+        private static string[] GetTuitionGroups(IOption<string> groups)
+        {
+            if(groups.IsDefined)
+            {
+                return groups.Get().Split('~');
+            }
+
+            return Array.Empty<string>();
         }
     }
 }

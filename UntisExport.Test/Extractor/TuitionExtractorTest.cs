@@ -19,14 +19,15 @@ namespace UntisExport.Test.Extractor
         }
 
         [TestMethod]
-        public void TestTuitionNumber()
+        public void TestTuitionInfo()
         {
-            var input = "0U ,1418,UW,UW,,,,,,20200801,20201231,,,Bc,,,,1418,402251226";
+            var input = "0U ,1418,UW,\"B~A\",,,,,,20200801,20201231,,,Bc,,,,1418,402251226";
             var output = PeriodAwareTuitionExtractor.Info.Parse(input);
 
             Assert.AreEqual(1418, output.Number);
             Assert.AreEqual(new DateTime(2020, 8, 1), output.StartDate);
             Assert.AreEqual(new DateTime(2020, 12, 31), output.EndDate);
+            CollectionAssert.AreEqual(new string[] { "B", "A" }, output.TuitionGroups);
         }
 
         [TestMethod]

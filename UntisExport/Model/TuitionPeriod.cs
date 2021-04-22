@@ -27,6 +27,8 @@ namespace SchulIT.UntisExport.Model
 
         public string StudentGroup { get; set; }
 
+        public string[] TuitionGroups { get; set; }
+
         public List<TimetableEntry> Timetable { get; } = new List<TimetableEntry>();
     }
 }
