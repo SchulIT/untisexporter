@@ -80,7 +80,7 @@ namespace SchulIT.UntisExport.Utilities
             if (substitution.AbsenceNumbers.Count > 0)
             {
                 var absenceNumber = substitution.AbsenceNumbers.First();
-                var absence = absences.FirstOrDefault(x => x.Number == absenceNumber);
+                var absence = absences.FirstOrDefault(x => x.Number == absenceNumber && x.IsInternal == false);
 
                 if (absence != null)
                 { 
