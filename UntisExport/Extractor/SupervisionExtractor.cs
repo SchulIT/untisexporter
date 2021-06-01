@@ -79,7 +79,7 @@ namespace SchulIT.UntisExport.Extractor
             {
                 foreach (var data in supervisionLine.Value)
                 {
-                    if (!string.IsNullOrEmpty(data.Teacher))
+                    if (string.IsNullOrEmpty(data.Teacher))
                     {
                         var supervision = new Supervision
                         {
