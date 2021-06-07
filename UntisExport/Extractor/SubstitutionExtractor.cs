@@ -10,12 +10,17 @@ namespace SchulIT.UntisExport.Extractor
     {
         private readonly IReadOnlyCollection<Tuition> tuitions;
         private readonly IReadOnlyCollection<Period> periods;
+        private readonly IReadOnlyCollection<SupervisionFloor> floors;
+        private readonly IReadOnlyCollection<Absence> absences;
         private readonly SubstitutionTypeResolver typeResolver;
 
-        public SubstitutionExtractor(IReadOnlyCollection<Tuition> tuitions, IReadOnlyCollection<Period> periods, SubstitutionTypeResolver typeResolver)
+        public SubstitutionExtractor(IReadOnlyCollection<Tuition> tuitions, IReadOnlyCollection<Period> periods, 
+            IReadOnlyCollection<SupervisionFloor> floors, IReadOnlyCollection<Absence> absences, SubstitutionTypeResolver typeResolver)
         {
             this.tuitions = tuitions;
             this.periods = periods;
+            this.floors = floors;
+            this.absences = absences;
             this.typeResolver = typeResolver;
         }
 
@@ -35,13 +40,13 @@ namespace SchulIT.UntisExport.Extractor
             from comma6 in Parse.Char(',')
             from subject in CsvParser.QuotedCell.Optional()
             from comma7 in Parse.Char(',')
-            from room in CsvParser.QuotedCell.Optional()
+            from replacementRoom in CsvParser.QuotedCell.Optional()
             from comma8 in Parse.Char(',')
             from tuitionNumber in Parse.Number.Optional()
             from comma9 in Parse.Char(',')
             from text in CsvParser.QuotedCell.Optional()
             from comma10 in Parse.Char(',')
-            from anyCell in CsvParser.QuotedCell.Optional()
+            from room in CsvParser.QuotedCell.Optional()
             from comma11 in Parse.Char(',')
             from anyNumber in Parse.Number
             from comma12 in Parse.Char(',')
@@ -56,8 +61,9 @@ namespace SchulIT.UntisExport.Extractor
                 Lesson = int.Parse(lesson),
                 TuitionNumber = GetTuitionNumber(tuitionNumber),
                 Teacher = GetStringOrNull(oldTeacher),
+                Rooms = GetStringListOrEmptyList(room),
                 ReplacementTeacher = GetStringOrNull(replacementTeacher),
-                ReplacementRooms = GetStringListOrEmptyList(room),
+                ReplacementRooms = GetStringListOrEmptyList(replacementRoom),
                 ReplacementSubject = GetStringOrNull(subject),
                 Text = GetStringOrNull(text),
                 RawType = GetStringOrNull(type)
@@ -123,15 +129,30 @@ namespace SchulIT.UntisExport.Extractor
                     }
                 }
             }
+            else if(dto.Rooms.Count == 1)
+            {
+                // check if substitution is related to a supervision
+                var floor = floors.FirstOrDefault(floor => floor.Name == dto.Rooms.First());
+                var absence = absences.FirstOrDefault(absence => absence.Type == AbsenceType.Teacher && dto.AbsenceNumbers != null && dto.AbsenceNumbers.Contains(absence.Number));
+
+                if(floor != null && absence != null)
+                {
+                    var entry = floor.Supervisions.FirstOrDefault(s => s.Day == (int)dto.Date.DayOfWeek && s.Lesson == dto.Lesson && s.Teacher == absence.Objective);
+
+                    if(entry != null)
+                    {
+                        dto.Teacher = absence.Objective;
+                        dto.Type = SubstitutionType.Pausenaufsicht;
+                        dto.IsBefore = true;
+                        dto.ReplacementRooms.Clear();
+                    }
+                }
+            }
 
             // resolve type
-            dto.Type = typeResolver.ResolveType(dto);
-
-            if(dto.Type == SubstitutionType.Pausenaufsicht)
+            if (dto.Type == default)
             {
-                dto.IsBefore = true;
-                dto.Rooms.AddRange(dto.ReplacementRooms);
-                dto.ReplacementRooms.Clear();
+                dto.Type = typeResolver.ResolveType(dto);
             }
 
             if(dto.Type == SubstitutionType.Entfall || dto.Type == SubstitutionType.Freisetzung)

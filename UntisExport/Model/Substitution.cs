@@ -23,7 +23,7 @@ namespace SchulIT.UntisExport.Model
 
         public string ReplacementTeacher { get; set; }
 
-        public List<string> Rooms { get; } = new List<string>();
+        public List<string> Rooms { get; internal set; } = new List<string>();
 
         public List<string> ReplacementRooms { get; internal set; } = new List<string>();
 

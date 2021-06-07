@@ -70,8 +70,16 @@ namespace SchulIT.UntisExport.Utilities
                 }
             }
 
+            // Pausenaufsicht?
+            if (substitution.TuitionNumber == null && !string.IsNullOrEmpty(substitution.Teacher) &&
+                ((substitution.Rooms.Count > 0 && ContainsAll(floors, substitution.Rooms))
+                || (substitution.ReplacementRooms.Count > 0 && ContainsAll(floors, substitution.ReplacementRooms))))
+            {
+                return SubstitutionType.Pausenaufsicht;
+            }
+
             // Sondereinsatz?
-            if(substitution.TuitionNumber == null)
+            if (substitution.TuitionNumber == null)
             {
                 return SubstitutionType.Sondereinsatz;
             }
@@ -105,12 +113,7 @@ namespace SchulIT.UntisExport.Utilities
                 }
             }
 
-            // Pausenaufsicht?
-            if(substitution.TuitionNumber == null && ((substitution.Rooms.Count > 0 && ContainsAll(floors, substitution.Rooms)) 
-                || (substitution.ReplacementRooms.Count > 0 && ContainsAll(floors, substitution.ReplacementRooms))))
-            {
-                return SubstitutionType.Pausenaufsicht;
-            }
+            
 
             // Vertretung ohne Lehrkraft
             if (string.IsNullOrEmpty(substitution.ReplacementTeacher))

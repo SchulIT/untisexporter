@@ -108,7 +108,7 @@ namespace SchulIT.UntisExport
             await Task.WhenAll(tasks).ContinueWith((task) =>
             {
                 // parse substitutions
-                var substitutionExtractor = new SubstitutionExtractor(result.Tuitions, result.Periods, new Utilities.SubstitutionTypeResolver(result.SupervisionFloors.Select(x => x.Name), result.Absences));
+                var substitutionExtractor = new SubstitutionExtractor(result.Tuitions, result.Periods, result.SupervisionFloors, result.Absences, new Utilities.SubstitutionTypeResolver(result.SupervisionFloors.Select(x => x.Name), result.Absences));
                 result.Substitutions.AddRange(substitutionExtractor.ParseContent(content));
             }).ConfigureAwait(false);
 
@@ -172,7 +172,7 @@ namespace SchulIT.UntisExport
             result.SupervisionFloors.AddRange(floors);
 
             // parse substitutions
-            var substitutionExtractor = new SubstitutionExtractor(tuitions, periods, new Utilities.SubstitutionTypeResolver(floors.Select(x => x.Name), result.Absences));
+            var substitutionExtractor = new SubstitutionExtractor(tuitions, periods, floors, result.Absences, new Utilities.SubstitutionTypeResolver(floors.Select(x => x.Name), result.Absences));
             result.Substitutions.AddRange(substitutionExtractor.ParseContent(content));
 
             // parse events
